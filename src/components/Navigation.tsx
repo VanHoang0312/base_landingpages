@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone } from "lucide-react";
+import { motion } from "framer-motion";
+import { Menu, Phone, ChevronDown } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -8,17 +9,29 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "@/components/ui/sheet";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
-const navLinks = [
-  { name: "Dịch Vụ", href: "#services" },
-  { name: "Dự Án", href: "#projects" },
-  { name: "Quy Trình", href: "#process" },
-  { name: "Đánh Giá", href: "#testimonials" },
+const projectCategories = [
+  { name: "Đã thi công", href: "/mau-nha-dep/da-thi-cong" },
+  { name: "Thiết kế", href: "/mau-nha-dep/thiet-ke" },
+  { name: "Nội thất", href: "/mau-nha-dep/noi-that" },
+  { name: "Xây mới", href: "/mau-nha-dep/xay-moi" },
+  { name: "Sửa nhà", href: "/mau-nha-dep/sua-nha" },
 ];
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,21 +41,23 @@ export const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isActive = (href: string) => location.pathname === href;
+  const isProjectsActive = location.pathname.startsWith("/mau-nha-dep");
+
   return (
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? "glass-effect shadow-md"
-          : "bg-transparent"
-      }`}
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+        isScrolled ? "glass-effect shadow-md" : "bg-background/80 backdrop-blur-sm"
+      )}
     >
       <div className="container-custom">
         <nav className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-lg bg-accent flex items-center justify-center">
               <span className="font-display text-2xl font-bold text-charcoal">
                 ĐH
@@ -56,28 +71,97 @@ export const Navigation = () => {
                 Kiến Trúc & Nội Thất
               </p>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-sm font-medium text-foreground/80 hover:text-accent transition-colors duration-300 relative group"
-              >
-                {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full" />
-              </a>
-            ))}
+          <div className="hidden lg:flex items-center gap-2">
+            <NavigationMenu>
+              <NavigationMenuList className="gap-1">
+                {/* Trang chủ */}
+                <NavigationMenuItem>
+                  <Link to="/">
+                    <NavigationMenuLink
+                      className={cn(
+                        "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent focus:text-accent focus:outline-none",
+                        isActive("/") ? "text-accent" : "text-foreground/80"
+                      )}
+                    >
+                      Trang chủ
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+
+                {/* Mẫu nhà đẹp - Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger
+                    className={cn(
+                      "bg-transparent hover:bg-transparent hover:text-accent data-[state=open]:bg-transparent",
+                      isProjectsActive ? "text-accent" : "text-foreground/80"
+                    )}
+                  >
+                    Mẫu nhà đẹp
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[200px] gap-1 p-2">
+                      {projectCategories.map((category) => (
+                        <li key={category.href}>
+                          <Link to={category.href}>
+                            <NavigationMenuLink
+                              className={cn(
+                                "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/10 hover:text-accent focus:bg-accent/10",
+                                isActive(category.href)
+                                  ? "bg-accent/10 text-accent"
+                                  : "text-foreground/80"
+                              )}
+                            >
+                              {category.name}
+                            </NavigationMenuLink>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                {/* Báo giá */}
+                <NavigationMenuItem>
+                  <Link to="/bao-gia">
+                    <NavigationMenuLink
+                      className={cn(
+                        "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent focus:text-accent focus:outline-none",
+                        isActive("/bao-gia") ? "text-accent" : "text-foreground/80"
+                      )}
+                    >
+                      Báo giá
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+
+                {/* Giới thiệu */}
+                <NavigationMenuItem>
+                  <Link to="/gioi-thieu">
+                    <NavigationMenuLink
+                      className={cn(
+                        "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent focus:text-accent focus:outline-none",
+                        isActive("/gioi-thieu") ? "text-accent" : "text-foreground/80"
+                      )}
+                    >
+                      Giới thiệu
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
           {/* CTA Button */}
           <div className="hidden lg:flex items-center gap-4">
-            <Button variant="navCta" size="default">
-              <Phone className="w-4 h-4" />
-              Liên Hệ Ngay
-            </Button>
+            <Link to="/lien-he">
+              <Button variant="navCta" size="default">
+                <Phone className="w-4 h-4" />
+                Liên Hệ
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu */}
@@ -90,7 +174,7 @@ export const Navigation = () => {
               </SheetTrigger>
               <SheetContent side="right" className="w-80 bg-background">
                 <SheetTitle className="sr-only">Menu điều hướng</SheetTitle>
-                <div className="flex flex-col gap-8 mt-8">
+                <div className="flex flex-col gap-6 mt-8">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center">
                       <span className="font-display text-xl font-bold text-charcoal">
@@ -107,26 +191,91 @@ export const Navigation = () => {
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-4">
-                    {navLinks.map((link, index) => (
-                      <motion.a
-                        key={link.name}
-                        href={link.href}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        onClick={() => setIsOpen(false)}
-                        className="text-lg font-medium text-foreground hover:text-accent transition-colors py-2 border-b border-border"
+                  <div className="flex flex-col gap-2">
+                    {/* Trang chủ */}
+                    <Link
+                      to="/"
+                      onClick={() => setIsOpen(false)}
+                      className={cn(
+                        "text-lg font-medium py-3 border-b border-border transition-colors",
+                        isActive("/") ? "text-accent" : "text-foreground hover:text-accent"
+                      )}
+                    >
+                      Trang chủ
+                    </Link>
+
+                    {/* Mẫu nhà đẹp - Dropdown */}
+                    <div className="border-b border-border">
+                      <button
+                        onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+                        className={cn(
+                          "flex items-center justify-between w-full text-lg font-medium py-3 transition-colors",
+                          isProjectsActive ? "text-accent" : "text-foreground hover:text-accent"
+                        )}
                       >
-                        {link.name}
-                      </motion.a>
-                    ))}
+                        Mẫu nhà đẹp
+                        <ChevronDown
+                          className={cn(
+                            "w-5 h-5 transition-transform",
+                            mobileDropdownOpen && "rotate-180"
+                          )}
+                        />
+                      </button>
+                      {mobileDropdownOpen && (
+                        <div className="pl-4 pb-3 flex flex-col gap-2">
+                          {projectCategories.map((category) => (
+                            <Link
+                              key={category.href}
+                              to={category.href}
+                              onClick={() => {
+                                setIsOpen(false);
+                                setMobileDropdownOpen(false);
+                              }}
+                              className={cn(
+                                "py-2 text-base transition-colors",
+                                isActive(category.href)
+                                  ? "text-accent"
+                                  : "text-muted-foreground hover:text-accent"
+                              )}
+                            >
+                              {category.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Báo giá */}
+                    <Link
+                      to="/bao-gia"
+                      onClick={() => setIsOpen(false)}
+                      className={cn(
+                        "text-lg font-medium py-3 border-b border-border transition-colors",
+                        isActive("/bao-gia") ? "text-accent" : "text-foreground hover:text-accent"
+                      )}
+                    >
+                      Báo giá
+                    </Link>
+
+                    {/* Giới thiệu */}
+                    <Link
+                      to="/gioi-thieu"
+                      onClick={() => setIsOpen(false)}
+                      className={cn(
+                        "text-lg font-medium py-3 border-b border-border transition-colors",
+                        isActive("/gioi-thieu") ? "text-accent" : "text-foreground hover:text-accent"
+                      )}
+                    >
+                      Giới thiệu
+                    </Link>
                   </div>
 
-                  <Button variant="gold" size="lg" className="w-full mt-4">
-                    <Phone className="w-4 h-4" />
-                    Liên Hệ Ngay
-                  </Button>
+                  <Link to="/lien-he" onClick={() => setIsOpen(false)}>
+                    <Button variant="gold" size="lg" className="w-full mt-4">
+                      <Phone className="w-4 h-4" />
+                      Liên Hệ Ngay
+                    </Button>
+                  </Link>
                 </div>
               </SheetContent>
             </Sheet>

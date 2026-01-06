@@ -103,7 +103,7 @@ export const ProcessSection = () => {
 
                 {/* Arrow - Desktop */}
                 {index < steps.length - 1 && (
-                  <div className="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-accent items-center justify-center">
+                  <div className="hidden lg:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-accent items-center justify-center">
                     <ArrowRight className="w-3 h-3 text-charcoal" />
                   </div>
                 )}

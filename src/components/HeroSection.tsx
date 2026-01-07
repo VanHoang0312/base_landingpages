@@ -70,13 +70,17 @@ export const HeroSection = () => {
               transition={{ duration: 0.6, delay: 0.9 }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              <Button variant="heroPrimary" size="xl">
-                Xem Dự Án
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-              <Button variant="heroSecondary" size="xl">
-                Nhận Báo Giá
-              </Button>
+              <a href="#du-an">
+                <Button variant="heroPrimary" size="xl">
+                  Xem Dự Án
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </a>
+              <a href="#bao-gia">
+                <Button variant="heroSecondary" size="xl">
+                  Nhận Báo Giá
+                </Button>
+              </a>
             </motion.div>
 
             {/* Trust indicators */}
@@ -109,7 +113,7 @@ export const HeroSection = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right Image Grid */}
+          {/* Right Video/Image Grid */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -117,35 +121,22 @@ export const HeroSection = () => {
             className="hidden lg:block relative"
           >
             <div className="relative">
-              {/* Main Image */}
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src={heroImage}
-                  alt="Premium interior design"
-                  className="w-full h-[500px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent" />
+              {/* Main Video Container */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video bg-black">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/sdjMqIbT55A?si=LThpNkkZvBMMKC7l"
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
+                ></iframe>
               </div>
 
-              {/* Floating Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.6, delay: 1 }}
-                className="absolute -bottom-8 -left-8 bg-background rounded-xl p-6 shadow-xl"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full bg-accent/20 flex items-center justify-center">
-                    <Play className="w-6 h-6 text-accent fill-accent" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-foreground">Video Tour</p>
-                    <p className="text-sm text-muted-foreground">
-                      Khám phá dự án
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
+              {/* Floating Card - Optional, maybe remove or keep as a badge if needed, removing for now as video is explicit */}
 
               {/* Gold Accent Border */}
               <div className="absolute -top-4 -right-4 w-full h-full border-2 border-accent/30 rounded-2xl -z-10" />

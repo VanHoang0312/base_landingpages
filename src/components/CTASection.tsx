@@ -1,15 +1,17 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Send, Phone, Mail, MapPin } from "lucide-react";
+import { Send, Phone, Mail, MapPin, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import heroImage from "@/assets/hero-interior.jpg";
+import { consultationService } from "@/services/api";
 
 export const CTASection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -17,18 +19,29 @@ export const CTASection = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Đã gửi thành công!",
-      description:
-        "Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.",
-    });
-    setFormData({ name: "", phone: "", email: "", message: "" });
+    setIsSubmitting(true);
+    try {
+      await consultationService.create(formData);
+      toast({
+        title: "Đã gửi thành công!",
+        description: "Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.",
+      });
+      setFormData({ name: "", phone: "", email: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Gửi thất bại!",
+        description: "Có lỗi xảy ra, vui lòng thử lại sau.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section id="bao-gia" className="relative py-24 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
         <img
@@ -124,6 +137,7 @@ export const CTASection = () => {
                       setFormData({ ...formData, name: e.target.value })
                     }
                     required
+                    disabled={isSubmitting}
                     className="h-12 bg-secondary border-border focus:border-accent"
                   />
                 </div>
@@ -140,6 +154,7 @@ export const CTASection = () => {
                         setFormData({ ...formData, phone: e.target.value })
                       }
                       required
+                      disabled={isSubmitting}
                       className="h-12 bg-secondary border-border focus:border-accent"
                     />
                   </div>
@@ -154,6 +169,7 @@ export const CTASection = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
+                      disabled={isSubmitting}
                       className="h-12 bg-secondary border-border focus:border-accent"
                     />
                   </div>
@@ -169,6 +185,7 @@ export const CTASection = () => {
                       setFormData({ ...formData, message: e.target.value })
                     }
                     rows={4}
+                    disabled={isSubmitting}
                     className="w-full px-4 py-3 rounded-lg bg-secondary border border-border focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all resize-none"
                   />
                 </div>
@@ -177,8 +194,13 @@ export const CTASection = () => {
                   variant="gold"
                   size="lg"
                   className="w-full"
+                  disabled={isSubmitting}
                 >
-                  <Send className="w-4 h-4" />
+                  {isSubmitting ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Send className="w-4 h-4" />
+                  )}
                   Gửi Yêu Cầu Báo Giá
                 </Button>
               </div>

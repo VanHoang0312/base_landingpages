@@ -58,11 +58,7 @@ export const Navigation = () => {
         <nav className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-lg bg-accent flex items-center justify-center">
-              <span className="font-display text-2xl font-bold text-charcoal">
-                ĐH
-              </span>
-            </div>
+            <img src="/logo.png" alt="Logo" className="w-12 h-12 object-contain rounded-lg" />
             <div className="hidden sm:block">
               <p className="font-display text-lg font-semibold text-foreground leading-tight">
                 Đại Hà Thanh
@@ -89,6 +85,20 @@ export const Navigation = () => {
                       Trang chủ
                     </NavigationMenuLink>
                   </Link>
+                </NavigationMenuItem>
+
+                {/* Dịch vụ */}
+                <NavigationMenuItem>
+                  <a href="/#dich-vu">
+                    <NavigationMenuLink
+                      className={cn(
+                        "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent focus:text-accent focus:outline-none",
+                        isActive("/#dich-vu") ? "text-accent" : "text-foreground/80"
+                      )}
+                    >
+                      Dịch vụ
+                    </NavigationMenuLink>
+                  </a>
                 </NavigationMenuItem>
 
                 {/* Mẫu nhà đẹp - Dropdown */}
@@ -125,7 +135,7 @@ export const Navigation = () => {
 
                 {/* Báo giá */}
                 <NavigationMenuItem>
-                  <Link to="/bao-gia">
+                  <a href="/#bao-gia">
                     <NavigationMenuLink
                       className={cn(
                         "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent focus:text-accent focus:outline-none",
@@ -134,7 +144,7 @@ export const Navigation = () => {
                     >
                       Báo giá
                     </NavigationMenuLink>
-                  </Link>
+                  </a>
                 </NavigationMenuItem>
 
                 {/* Giới thiệu */}
@@ -156,12 +166,12 @@ export const Navigation = () => {
 
           {/* CTA Button */}
           <div className="hidden lg:flex items-center gap-4">
-            <Link to="/lien-he">
+            <a href="/#bao-gia">
               <Button variant="navCta" size="default">
                 <Phone className="w-4 h-4" />
                 Liên Hệ
               </Button>
-            </Link>
+            </a>
           </div>
 
           {/* Mobile Menu */}
@@ -176,11 +186,7 @@ export const Navigation = () => {
                 <SheetTitle className="sr-only">Menu điều hướng</SheetTitle>
                 <div className="flex flex-col gap-6 mt-8">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center">
-                      <span className="font-display text-xl font-bold text-charcoal">
-                        ĐH
-                      </span>
-                    </div>
+                    <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain rounded-lg" />
                     <div>
                       <p className="font-display font-semibold text-foreground">
                         Đại Hà Thanh
@@ -203,6 +209,15 @@ export const Navigation = () => {
                     >
                       Trang chủ
                     </Link>
+
+                    {/* Dịch vụ */}
+                    <a
+                      href="/#dich-vu"
+                      onClick={() => setIsOpen(false)}
+                      className="text-lg font-medium py-3 border-b border-border transition-colors text-foreground hover:text-accent"
+                    >
+                      Dịch vụ
+                    </a>
 
                     {/* Mẫu nhà đẹp - Dropdown */}
                     <div className="border-b border-border">
@@ -246,8 +261,8 @@ export const Navigation = () => {
                     </div>
 
                     {/* Báo giá */}
-                    <Link
-                      to="/bao-gia"
+                    <a
+                      href="/#bao-gia"
                       onClick={() => setIsOpen(false)}
                       className={cn(
                         "text-lg font-medium py-3 border-b border-border transition-colors",
@@ -255,7 +270,7 @@ export const Navigation = () => {
                       )}
                     >
                       Báo giá
-                    </Link>
+                    </a>
 
                     {/* Giới thiệu */}
                     <Link
@@ -270,12 +285,12 @@ export const Navigation = () => {
                     </Link>
                   </div>
 
-                  <Link to="/lien-he" onClick={() => setIsOpen(false)}>
+                  <a href="/#bao-gia" onClick={() => setIsOpen(false)}>
                     <Button variant="gold" size="lg" className="w-full mt-4">
                       <Phone className="w-4 h-4" />
                       Liên Hệ Ngay
                     </Button>
-                  </Link>
+                  </a>
                 </div>
               </SheetContent>
             </Sheet>

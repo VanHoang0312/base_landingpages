@@ -20,11 +20,11 @@ const footerLinks = {
   company: [
     { name: "Về Chúng Tôi", href: "#" },
     { name: "Đội Ngũ", href: "#" },
-    { name: "Dự Án", href: "#projects" },
+    { name: "Dự Án", href: "#du-an" },
     { name: "Tin Tức", href: "#" },
   ],
   support: [
-    { name: "Liên Hệ", href: "#" },
+    { name: "Liên Hệ", href: "#bao-gia" },
     { name: "Câu Hỏi Thường Gặp", href: "#" },
     { name: "Chính Sách Bảo Hành", href: "#" },
     { name: "Quy Trình Hợp Tác", href: "#process" },
@@ -44,11 +44,7 @@ export const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-lg bg-accent flex items-center justify-center">
-                <span className="font-display text-2xl font-bold text-charcoal">
-                  ĐH
-                </span>
-              </div>
+              <img src="/logo.png" alt="Logo" className="w-12 h-12 object-contain rounded-lg" />
               <div>
                 <p className="font-display text-lg font-semibold leading-tight">
                   Đại Hà Thanh

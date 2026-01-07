@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -8,7 +9,8 @@ import projectVilla from "@/assets/project-villa.jpg";
 import projectApartment from "@/assets/project-apartment.jpg";
 import projectOffice from "@/assets/project-office.jpg";
 import projectPenthouse from "@/assets/project-penthouse.jpg";
-
+import projectResort from "@/assets/project-resort.jpg";
+import projectBungalow from "@/assets/project-bungalow.jpg";
 const projects = [
   {
     title: "Duplex Sân Vườn",
@@ -39,10 +41,24 @@ const projects = [
     size: "small",
   },
   {
+    title: "Bungalow",
+    category: "Biệt thự",
+    location: "Thanh Hóa",
+    image: projectBungalow,
+    size: "large",
+  },  
+  {
     title: "Penthouse View City",
     category: "Nội thất cao cấp",
     location: "TP. Thanh Hóa",
     image: projectPenthouse,
+    size: "medium",
+  },
+  {
+    title: "Resort Sang Trọng",
+    category: "Biệt thự",
+    location: "Sầm Sơn",
+    image: projectResort,
     size: "medium",
   },
 ];
@@ -52,7 +68,7 @@ export const ProjectsSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="projects" className="section-padding bg-secondary">
+    <section id="du-an" className="section-padding bg-secondary">
       <div className="container-custom" ref={ref}>
         {/* Section Header */}
         <motion.div
@@ -70,10 +86,12 @@ export const ProjectsSection = () => {
               <span className="block text-accent">Đã Hoàn Thành</span>
             </h2>
           </div>
-          <Button variant="gold" size="lg">
-            Xem Tất Cả
-            <ArrowUpRight className="w-4 h-4" />
-          </Button>
+          <Link to="/mau-nha-dep/da-thi-cong">
+            <Button variant="gold" size="lg">
+              Xem Tất Cả
+              <ArrowUpRight className="w-4 h-4 ml-2" />
+            </Button>
+          </Link>
         </motion.div>
 
         {/* Projects Grid */}
@@ -84,13 +102,12 @@ export const ProjectsSection = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`group relative overflow-hidden rounded-2xl cursor-pointer ${
-                project.size === "large"
-                  ? "md:row-span-2 aspect-[3/4]"
-                  : project.size === "medium"
+              className={`group relative overflow-hidden rounded-2xl cursor-pointer ${project.size === "large"
+                ? "md:row-span-2 aspect-[3/4]"
+                : project.size === "medium"
                   ? "lg:col-span-1 aspect-square"
                   : "aspect-[4/3]"
-              }`}
+                }`}
             >
               {/* Image */}
               <img

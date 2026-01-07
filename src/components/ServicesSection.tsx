@@ -6,7 +6,9 @@ import {
   Home,
   Hammer,
   ArrowUpRight,
+  ArrowRight,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const services = [
   {
@@ -56,7 +58,7 @@ export const ServicesSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="services" className="section-padding bg-background">
+    <section id="dich-vu" className="section-padding bg-background">
       <div className="container-custom" ref={ref}>
         {/* Section Header */}
         <motion.div
@@ -72,7 +74,7 @@ export const ServicesSection = () => {
             Giải Pháp Toàn Diện
             <span className="block text-accent">Cho Ngôi Nhà Mơ Ước</span>
           </h2>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-muted-foreground mb-8">
             Từ ý tưởng đến hiện thực, chúng tôi đồng hành cùng bạn trong mọi
             giai đoạn để kiến tạo không gian sống hoàn hảo.
           </p>

@@ -3,7 +3,7 @@ import axios from "axios";
 // Environment-aware API base URL
 // In development, we use the specific port. In production, it might be different.
 // For now, we hardcode the provided dev URL but structure it for easy change.
-const API_BASE_URL = "http://terp-dev.thinklabs.com.vn:3000/api";
+const API_BASE_URL = "https://terp-dev.thinklabs.com.vn/api";
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,

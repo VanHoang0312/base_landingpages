@@ -4,6 +4,7 @@ pipeline {
         stage('Init') {
             steps {
                 echo 'Testing..'
+                telegramSend(message: 'Building Job Daihathanh - Home - Web...', chatId: -740504133)
             }
         }
         stage ('Deployments') {
@@ -12,7 +13,7 @@ pipeline {
                 echo 'Copy project over SSH...'
                 sshPublisher(publishers: [
                     sshPublisherDesc(
-                        configName: 'k8sbiai1',
+                        configName: 'thinklabs20',
                         transfers:
                             [sshTransfer(
                                 cleanRemote: false,
@@ -38,6 +39,7 @@ pipeline {
                         verbose: false
                     )
                 ])
+                telegramSend(message: 'Build Job Daihathanh - Home - Web - STATUS: $BUILD_STATUS!', chatId: -740504133)
             }
         }
     }

@@ -18,7 +18,7 @@ pipeline {
                                 cleanRemote: false,
                                 excludes: '',
                                 execCommand: "docker build -t registry.thinklabs.com.vn:5000/daihathanh-home ./thinklabsdev/daihathanh-homeCI/ --no-cache \
-                                    && docker image push registry.thinklabs.com.vn:5000/daihathanh-hom \
+                                    && docker image push registry.thinklabs.com.vn:5000/daihathanh-home \
                                     && docker service rm daihathanh-home_web || true \
                                     && docker stack deploy -c ./thinklabsdev/daihathanh-homeCI/docker-compose.yml daihathanh-home \
                                     && rm -rf ./thinklabsdev/daihathanh-homeCIB \

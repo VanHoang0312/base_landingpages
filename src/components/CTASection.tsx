@@ -118,7 +118,7 @@ export const CTASection = () => {
           >
             <form
               onSubmit={handleSubmit}
-              className="bg-background rounded-3xl p-8 md:p-10 shadow-2xl"
+              className="bg-background rounded-2xl p-8 md:p-10 shadow-2xl"
             >
               <h3 className="font-display text-2xl font-bold text-foreground mb-6">
                 Nhận Báo Giá Miễn Phí

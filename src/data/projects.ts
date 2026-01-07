@@ -3,13 +3,15 @@ import projectVilla from "@/assets/project-villa.jpg";
 import projectApartment from "@/assets/project-apartment.jpg";
 import projectOffice from "@/assets/project-office.jpg";
 import projectPenthouse from "@/assets/project-penthouse.jpg";
+import projectResort from "@/assets/project-resort.jpg";
+import projectBungalow from "@/assets/project-bungalow.jpg";
 import heroInterior from "@/assets/hero-interior.jpg";
 
-export type ProjectCategory = 
-  | "da-thi-cong" 
-  | "thiet-ke" 
-  | "noi-that" 
-  | "xay-moi" 
+export type ProjectCategory =
+  | "da-thi-cong"
+  | "thiet-ke"
+  | "noi-that"
+  | "xay-moi"
   | "sua-nha";
 
 export interface Project {
@@ -173,6 +175,44 @@ export const projects: Project[] = [
     },
     features: ["Cải tạo toàn diện", "Mở rộng không gian", "Ánh sáng tự nhiên", "Tiết kiệm"],
     description: "Dự án cải tạo nhà phố cũ với diện tích hạn chế thành không gian sống hiện đại, thoáng đãng. Các giải pháp thông minh được áp dụng để tối ưu hóa diện tích sử dụng.",
+  },
+  {
+    id: "8",
+    slug: "bungalow-nghi-duong",
+    title: "Bungalow",
+    excerpt: "Thiết kế Bungalow nghỉ dưỡng hài hòa với thiên nhiên.",
+    category: "da-thi-cong",
+    categoryLabel: "Đã thi công",
+    image: projectBungalow,
+    date: "2024-03-05",
+    dateDisplay: "05 Th03",
+    specs: {
+      area: "85m²",
+      cost: "1.2 Tỷ",
+      rooms: "1 Phòng khách, 1 Phòng ngủ",
+      location: "Thanh Hóa",
+    },
+    features: ["Hòa quyện thiên nhiên", "Vật liệu tự nhiên", "Không gian mở"],
+    description: "Mẫu Bungalow được thiết kế tối giản, sử dụng các vật liệu tự nhiên như gỗ, đá, tạo cảm giác gần gũi và thư giãn tuyệt đối cho người ở.",
+  },
+  {
+    id: "9",
+    slug: "resort-sang-trong",
+    title: "Resort Sang Trọng",
+    excerpt: "Khu nghỉ dưỡng cao cấp với tiêu chuẩn 5 sao.",
+    category: "da-thi-cong",
+    categoryLabel: "Đã thi công",
+    image: projectResort,
+    date: "2024-02-15",
+    dateDisplay: "15 Th02",
+    specs: {
+      area: "5000m²",
+      cost: "120 Tỷ",
+      rooms: "50 Villa, 2 Nhà hàng, Spa",
+      location: "Sầm Sơn",
+    },
+    features: ["Tiêu chuẩn 5 sao", "Hệ sinh thái xanh", "Giải trí cao cấp"],
+    description: "Dự án Resort nghỉ dưỡng cao cấp tại Sầm Sơn, mang đến trải nghiệm nghỉ dưỡng đẳng cấp với đầy đủ tiện ích hiện đại và không gian xanh mát.",
   },
 ];
 

@@ -10,6 +10,7 @@ import ProjectArchive from "./pages/ProjectArchive";
 import ProjectDetail from "./pages/ProjectDetail";
 import Quotation from "./pages/Quotation";
 import Introduction from "./pages/Introduction";
+import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
@@ -18,11 +19,11 @@ const queryClient = new QueryClient();
 // Scroll to top on route change
 const ScrollToTop = () => {
   const { pathname } = useLocation();
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-  
+
   return null;
 };
 
@@ -35,17 +36,18 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
-          
+
           {/* Project Routes */}
           <Route path="/mau-nha-dep" element={<ProjectArchive />} />
           <Route path="/mau-nha-dep/:category" element={<ProjectArchive />} />
           <Route path="/du-an/:slug" element={<ProjectDetail />} />
-          
+
           {/* Other Pages */}
+          <Route path="/dich-vu" element={<Services />} />
           <Route path="/bao-gia" element={<Quotation />} />
           <Route path="/gioi-thieu" element={<Introduction />} />
           <Route path="/lien-he" element={<Contact />} />
-          
+
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -6,14 +6,20 @@ import heroImage from "@/assets/hero-interior.jpg";
 export const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-primary">
-      {/* Background Image */}
+      {/* Background Image with Parallax-like Zoom */}
       <div className="absolute inset-0">
-        <img
+        <motion.img
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.5 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
           src={heroImage}
           alt="Luxury interior design"
-          className="w-full h-full object-cover opacity-40"
+          className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/70" />
+        {/* Dynamic Multi-layered Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/95 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-primary/30" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.4)_100%)]" />
       </div>
 
       {/* Decorative Elements */}

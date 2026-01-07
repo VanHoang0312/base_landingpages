@@ -8,6 +8,7 @@ import {
   ArrowUpRight,
   ArrowRight,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const services = [
@@ -83,44 +84,49 @@ export const ServicesSection = () => {
         {/* Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, index) => (
-            <motion.div
+            <Link
+              to="/dich-vu"
               key={service.title}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: service.delay }}
               className={`group relative rounded-2xl p-8 bg-gradient-to-br ${service.color} border border-border hover:border-accent/50 transition-all duration-500 hover:shadow-lg overflow-hidden ${service.className}`}
             >
-              {/* Background Glow */}
-              <div className="absolute -top-20 -right-20 w-40 h-40 bg-accent/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: service.delay }}
+                className="h-full"
+              >
+                {/* Background Glow */}
+                <div className="absolute -top-20 -right-20 w-40 h-40 bg-accent/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-              {/* Icon */}
-              <div className="relative z-10 w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-charcoal transition-all duration-300">
-                <service.icon className="w-7 h-7 text-accent group-hover:text-charcoal" />
-              </div>
-
-              {/* Content */}
-              <div className="relative z-10">
-                <h3 className="font-display text-xl md:text-2xl font-bold text-foreground mb-3 flex items-center gap-2">
-                  {service.title}
-                  <ArrowUpRight className="w-5 h-5 text-accent opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-                </h3>
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  {service.description}
-                </p>
-
-                {/* Features */}
-                <div className="flex flex-wrap gap-2">
-                  {service.features.map((feature) => (
-                    <span
-                      key={feature}
-                      className="inline-block px-3 py-1 text-xs font-medium bg-background/80 text-foreground rounded-full border border-border"
-                    >
-                      {feature}
-                    </span>
-                  ))}
+                {/* Icon */}
+                <div className="relative z-10 w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-charcoal transition-all duration-300">
+                  <service.icon className="w-7 h-7 text-accent group-hover:text-charcoal" />
                 </div>
-              </div>
-            </motion.div>
+
+                {/* Content */}
+                <div className="relative z-10">
+                  <h3 className="font-display text-xl md:text-2xl font-bold text-foreground mb-3 flex items-center gap-2">
+                    {service.title}
+                    <ArrowUpRight className="w-5 h-5 text-accent opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                  </h3>
+                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                    {service.description}
+                  </p>
+
+                  {/* Features */}
+                  <div className="flex flex-wrap gap-2">
+                    {service.features.map((feature) => (
+                      <span
+                        key={feature}
+                        className="inline-block px-3 py-1 text-xs font-medium bg-background/80 text-foreground rounded-full border border-border"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </div>

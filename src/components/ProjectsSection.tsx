@@ -51,7 +51,7 @@ const projects = [
     category: "Biệt thự",
     location: "Thanh Hóa",
     image: projectBungalow,
-    size: "large",
+    size: "medium",
   },
   {
     slug: "penthouse-view-song",

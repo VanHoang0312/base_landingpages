@@ -84,7 +84,7 @@ export const CTASection = () => {
                 </div>
                 <div>
                   <p className="text-sm text-primary-foreground/60">Hotline</p>
-                  <p className="font-semibold">0237 123 4567</p>
+                  <p className="font-semibold">0927.366.678</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">

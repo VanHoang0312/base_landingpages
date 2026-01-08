@@ -37,13 +37,13 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       <main className="pt-20">
         {/* Header */}
         <section className="bg-charcoal text-white py-16 md:py-24">
           <div className="container-custom">
             <Breadcrumbs items={[{ label: "Liên hệ" }]} />
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

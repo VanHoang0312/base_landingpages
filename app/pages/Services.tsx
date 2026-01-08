@@ -223,9 +223,9 @@ const Services = () => {
                                 Nhận Báo Giá Ngay
                             </Button>
                         </a>
-                        <a href="tel:02371234567">
+                        <a href="tel:0927366678">
                             <Button size="xl" variant="outline" className="border-charcoal text-charcoal hover:bg-charcoal/10 rounded-2xl w-full sm:w-auto">
-                                Gọi Hotline: 0237 123 4567
+                                Gọi Hotline: 0927.366.678
                             </Button>
                         </a>
                     </div>

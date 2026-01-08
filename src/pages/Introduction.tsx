@@ -4,6 +4,10 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import heroInterior from "@/assets/hero-interior.jpg";
+import thuNgoImg from "@/assets/gioithieu/gen-n-thu-ngo-1.jpg";
+import congTyImg from "@/assets/gioithieu/gen-n-cong-ty-3.jpg";
+import hoatDongImg from "@/assets/gioithieu/gen-n-hoat-dong-2.jpg";
+import taiSaoImg from "@/assets/gioithieu/gen-n-tai-sao-4-1024x724.jpg";
 
 const values = [
   {
@@ -41,7 +45,7 @@ const Introduction = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       <main className="pt-20">
         {/* Hero Section */}
         <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
@@ -51,11 +55,11 @@ const Introduction = () => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-charcoal/30" />
-          
+
           <div className="absolute bottom-0 left-0 right-0 pb-8 md:pb-12">
             <div className="container-custom">
               <Breadcrumbs items={[{ label: "Giới thiệu" }]} />
-              
+
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -72,43 +76,30 @@ const Introduction = () => {
           </div>
         </section>
 
-        {/* Company Intro */}
-        <section className="py-16 md:py-24 bg-background">
+        {/* Thư ngỏ Section */}
+        <section className="py-16 bg-background">
           <div className="container-custom">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="max-w-5xl mx-auto"
+            >
+              <img src={thuNgoImg} alt="Thư ngỏ" className="w-full h-auto rounded-2xl shadow-2xl" />
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Company Overview Section */}
+        <section className="py-16 bg-muted/20">
+          <div className="container-custom">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="max-w-4xl mx-auto text-center"
+              className="max-w-5xl mx-auto"
             >
-              <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
-                Công ty TNHH <span className="text-accent">Đại Hà Thanh</span>
-              </h2>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-                Được thành lập từ năm 2014, Đại Hà Thanh đã không ngừng phát triển và khẳng định vị thế 
-                là một trong những đơn vị hàng đầu trong lĩnh vực thiết kế kiến trúc, nội thất và thi công 
-                xây dựng tại Thanh Hóa. Với đội ngũ kiến trúc sư, kỹ sư giàu kinh nghiệm và tâm huyết, 
-                chúng tôi cam kết mang đến những công trình chất lượng, thẩm mỹ và bền vững theo thời gian.
-              </p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div className="p-4">
-                  <p className="font-display text-4xl font-bold text-accent mb-1">10+</p>
-                  <p className="text-muted-foreground text-sm">Năm kinh nghiệm</p>
-                </div>
-                <div className="p-4">
-                  <p className="font-display text-4xl font-bold text-accent mb-1">500+</p>
-                  <p className="text-muted-foreground text-sm">Dự án hoàn thành</p>
-                </div>
-                <div className="p-4">
-                  <p className="font-display text-4xl font-bold text-accent mb-1">50+</p>
-                  <p className="text-muted-foreground text-sm">Nhân sự chuyên nghiệp</p>
-                </div>
-                <div className="p-4">
-                  <p className="font-display text-4xl font-bold text-accent mb-1">100%</p>
-                  <p className="text-muted-foreground text-sm">Khách hàng hài lòng</p>
-                </div>
-              </div>
+              <img src={congTyImg} alt="Thông tin công ty" className="w-full h-auto rounded-2xl shadow-xl" />
             </motion.div>
           </div>
         </section>
@@ -199,43 +190,32 @@ const Introduction = () => {
           </div>
         </section>
 
-        {/* Why Choose Us */}
-        <section className="py-16 md:py-24 bg-charcoal text-white">
+        {/* Why Choose Us Section */}
+        <section className="py-16 bg-charcoal">
           <div className="container-custom">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="max-w-5xl mx-auto"
+            >
+              <img src={taiSaoImg} alt="Tại sao chọn chúng tôi" className="w-full h-auto rounded-3xl shadow-2xl" />
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Activities Section */}
+        <section className="py-16 bg-background">
+          <div className="container-custom">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="text-center mb-12"
+              className="max-w-6xl mx-auto"
             >
-              <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-                Tại sao chọn Đại Hà Thanh?
-              </h2>
+              <h2 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">Hoạt động tiêu biểu</h2>
+              <img src={hoatDongImg} alt="Hoạt động" className="w-full h-auto rounded-[2rem] shadow-2xl" />
             </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                "Thiết kế độc quyền theo yêu cầu khách hàng",
-                "Đội ngũ kiến trúc sư giàu kinh nghiệm",
-                "Cam kết đúng tiến độ, đúng ngân sách",
-                "Vật liệu chất lượng cao, nguồn gốc rõ ràng",
-                "Bảo hành công trình dài hạn",
-                "Hỗ trợ tư vấn 24/7",
-              ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="flex items-center gap-3 p-4 bg-white/5 rounded-lg"
-                >
-                  <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
-                  <span className="text-white/90">{item}</span>
-                </motion.div>
-              ))}
-            </div>
           </div>
         </section>
       </main>

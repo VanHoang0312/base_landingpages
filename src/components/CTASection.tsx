@@ -1,11 +1,29 @@
+import React from "react";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Send, Phone, Mail, MapPin, Loader2 } from "lucide-react";
+import { Send, Phone, Mail, MapPin, Loader2, ChevronDown, Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import heroImage from "@/assets/hero-interior.jpg";
+import heroImage from "@/assets/project-apartment.png";
 import { consultationService } from "@/services/api";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { cn } from "@/lib/utils";
 
 export const CTASection = () => {
   const ref = useRef(null);
@@ -16,8 +34,25 @@ export const CTASection = () => {
     name: "",
     phone: "",
     email: "",
+    service: "Thiết kế",
+    contactPreference: "anytime",
+    contactTime: "",
     message: "",
   });
+
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [time, setTime] = useState("09:00");
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+  // Synchronize contactTime string whenever date or time changes
+  React.useEffect(() => {
+    if (date) {
+      const combined = new Date(date);
+      const [hours, minutes] = time.split(":").map(Number);
+      combined.setHours(hours, minutes);
+      setFormData(prev => ({ ...prev, contactTime: combined.toISOString() }));
+    }
+  }, [date, time]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +63,17 @@ export const CTASection = () => {
         title: "Đã gửi thành công!",
         description: "Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.",
       });
-      setFormData({ name: "", phone: "", email: "", message: "" });
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        service: "Thiết kế",
+        contactPreference: "anytime",
+        contactTime: "",
+        message: "",
+      });
+      setDate(undefined);
+      setTime("09:00");
     } catch (error) {
       toast({
         title: "Gửi thất bại!",
@@ -174,6 +219,110 @@ export const CTASection = () => {
                     />
                   </div>
                 </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-2 block">
+                      Lĩnh vực tư vấn
+                    </label>
+                    <Select
+                      value={formData.service}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, service: value })
+                      }
+                      disabled={isSubmitting}
+                    >
+                      <SelectTrigger className="h-12 bg-secondary border-border focus:border-accent">
+                        <SelectValue placeholder="Chọn lĩnh vực" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Thiết kế">Thiết kế</SelectItem>
+                        <SelectItem value="Thi công">Thi công</SelectItem>
+                        <SelectItem value="Tư vấn giám sát">
+                          Tư vấn giám sát
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-foreground mb-2 block">
+                      Thời gian liên hệ
+                    </label>
+                    <Select
+                      value={formData.contactPreference}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, contactPreference: value })
+                      }
+                      disabled={isSubmitting}
+                    >
+                      <SelectTrigger className="h-12 bg-secondary border-border focus:border-accent">
+                        <SelectValue placeholder="Chọn thời gian" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="anytime">Bất cứ lúc nào</SelectItem>
+                        <SelectItem value="specific">
+                          Chọn thời gian cụ thể
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                {formData.contactPreference === "specific" && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="space-y-3"
+                  >
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <div className="flex-1 space-y-2">
+                        <Label className="text-sm font-medium text-foreground">Ngày liên hệ</Label>
+                        <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="outline"
+                              className={cn(
+                                "w-full justify-between font-normal h-12 bg-secondary border-border focus:border-accent hover:bg-secondary/80",
+                                !date && "text-muted-foreground"
+                              )}
+                            >
+                              <div className="flex items-center">
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {date ? format(date, "dd/MM/yyyy", { locale: vi }) : "Chọn ngày"}
+                              </div>
+                              <ChevronDown className="h-4 w-4 opacity-50" />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={date}
+                              onSelect={(newDate) => {
+                                setDate(newDate);
+                                setIsCalendarOpen(false);
+                              }}
+                              initialFocus
+                              locale={vi}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+
+                      <div className="w-full sm:w-32 space-y-2">
+                        <Label className="text-sm font-medium text-foreground">Giờ</Label>
+                        <Input
+                          type="time"
+                          value={time}
+                          onChange={(e) => setTime(e.target.value)}
+                          disabled={isSubmitting}
+                          className="h-12 bg-secondary border-border focus:border-accent appearance-none"
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
                 <div>
                   <label className="text-sm font-medium text-foreground mb-2 block">
                     Nội dung yêu cầu
@@ -204,10 +353,6 @@ export const CTASection = () => {
                   Gửi Yêu Cầu Báo Giá
                 </Button>
               </div>
-
-              <p className="text-xs text-muted-foreground text-center mt-4">
-                Cam kết bảo mật thông tin. Phản hồi trong 24 giờ.
-              </p>
             </form>
           </motion.div>
         </div>

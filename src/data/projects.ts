@@ -1,11 +1,11 @@
-import projectDuplex from "@/assets/project-duplex.jpg";
-import projectVilla from "@/assets/project-villa.jpg";
-import projectApartment from "@/assets/project-apartment.jpg";
-import projectOffice from "@/assets/project-office.jpg";
-import projectPenthouse from "@/assets/project-penthouse.jpg";
-import projectResort from "@/assets/project-resort.jpg";
-import projectBungalow from "@/assets/project-bungalow.jpg";
-import heroInterior from "@/assets/hero-interior.jpg";
+import projectDuplex from "@/assets/project-kitchen.png";
+import projectVilla from "@/assets/project-villa.png";
+import projectApartment from "@/assets/project-apartment.png";
+import projectOffice from "@/assets/project-office.png";
+import projectPenthouse from "@/assets/project-penthouse.png";
+import projectResort from "@/assets/project-resort.png";
+import projectBungalow from "@/assets/project-resort.png"; // Reusing resort for bungalow since quota met
+import heroInterior from "@/assets/project-apartment.png";
 
 export type ProjectCategory =
   | "da-thi-cong"

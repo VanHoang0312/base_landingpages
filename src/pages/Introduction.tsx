@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import heroInterior from "@/assets/hero-interior.jpg";
+import heroInterior from "@/assets/project-apartment.png";
 import thuNgoImg from "@/assets/gioithieu/gen-n-thu-ngo-1.jpg";
 import congTyImg from "@/assets/gioithieu/gen-n-cong-ty-3.jpg";
 import hoatDongImg from "@/assets/gioithieu/gen-n-hoat-dong-2.jpg";

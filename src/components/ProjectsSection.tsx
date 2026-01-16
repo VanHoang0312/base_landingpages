@@ -5,18 +5,18 @@ import { ArrowUpRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-import projectDuplex from "@/assets/project-duplex.jpg";
-import projectVilla from "@/assets/project-villa.jpg";
-import projectApartment from "@/assets/project-apartment.jpg";
-import projectOffice from "@/assets/project-office.jpg";
-import projectPenthouse from "@/assets/project-penthouse.jpg";
-import projectResort from "@/assets/project-resort.jpg";
-import projectBungalow from "@/assets/project-bungalow.jpg";
+import projectDuplex from "@/assets/project-kitchen.png";
+import projectVilla from "@/assets/project-villa.png";
+import projectApartment from "@/assets/project-apartment.png";
+import projectOffice from "@/assets/project-office.png";
+import projectPenthouse from "@/assets/project-penthouse.png";
+import projectResort from "@/assets/project-resort.png";
+import projectBungalow from "@/assets/project-resort.png";
 const projects = [
   {
-    slug: "duplex-san-vuon-sang-trong",
-    title: "Duplex Sân Vườn",
-    category: "Thiết kế & Xây dựng",
+    slug: "thiet-ke-bep-hien-dai-2k",
+    title: "Nội Thất Bếp 2K",
+    category: "Nội thất cao cấp",
     location: "Thanh Hóa",
     image: projectDuplex,
     size: "large",
@@ -54,9 +54,9 @@ const projects = [
     size: "medium",
   },
   {
-    slug: "penthouse-view-song",
-    title: "Penthouse View City",
-    category: "Nội thất cao cấp",
+    slug: "penthouse-view-song-ma",
+    title: "Penthouse Thượng Lưu",
+    category: "Căn hộ cao cấp",
     location: "TP. Thanh Hóa",
     image: projectPenthouse,
     size: "medium",

@@ -1,9 +1,34 @@
+import * as React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-interior.jpg";
+import heroImage from "@/assets/banner.png";
+import Autoplay from "embla-carousel-autoplay";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+
+// Import images for carousel
+import slide1 from "@/assets/project-apartment.png";
+import slide2 from "@/assets/project-villa.png";
+import slide3 from "@/assets/project-penthouse.png";
+import slide4 from "@/assets/project-office.png";
+import slide5 from "@/assets/project-kitchen.png";
 
 export const HeroSection = () => {
+
+  const slides = [
+    { src: slide1, alt: "Thiết kế nội thất cao cấp" },
+    { src: slide2, alt: "Biệt thự sang trọng" },
+    { src: slide3, alt: "Căn hộ hiện đại" },
+    { src: slide4, alt: "Văn phòng sáng tạo" },
+    { src: slide5, alt: "Kiến trúc độc bản" },
+  ];
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-primary">
       {/* Background Image with Parallax-like Zoom */}
@@ -17,9 +42,9 @@ export const HeroSection = () => {
           className="w-full h-full object-cover"
         />
         {/* Dynamic Multi-layered Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/95 to-transparent" />
+        {/* <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/95 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-primary/30" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.4)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.4)_100%)]" /> */}
       </div>
 
       {/* Decorative Elements */}
@@ -127,19 +152,38 @@ export const HeroSection = () => {
             className="hidden lg:block relative"
           >
             <div className="relative">
-              {/* Main Video Container */}
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video bg-black">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/sdjMqIbT55A?si=LThpNkkZvBMMKC7l"
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full"
-                ></iframe>
+              {/* Carousel Container */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-black aspect-video group">
+                <Carousel
+                  className="w-full h-full"
+                  plugins={[
+                    Autoplay({
+                      delay: 3000,
+                      stopOnInteraction: false,
+                    })
+                  ]}
+                  opts={{
+                    loop: true,
+                  }}
+                >
+                  <CarouselContent>
+                    {slides.map((slide, index) => (
+                      <CarouselItem key={index} className="relative aspect-video">
+                        <img
+                          src={slide.src}
+                          alt={slide.alt}
+                          className="w-full h-full object-cover"
+                        />
+
+
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <div className="absolute right-12 bottom-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <CarouselPrevious className="static translate-y-0 h-10 w-10 bg-white/10 backdrop-blur-md border-white/20 hover:bg-accent hover:text-primary transition-all" />
+                    <CarouselNext className="static translate-y-0 h-10 w-10 bg-white/10 backdrop-blur-md border-white/20 hover:bg-accent hover:text-primary transition-all" />
+                  </div>
+                </Carousel>
               </div>
 
               {/* Floating Card - Optional, maybe remove or keep as a badge if needed, removing for now as video is explicit */}

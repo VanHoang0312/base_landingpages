@@ -17,6 +17,11 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
 
 const projectCategories = [
@@ -87,6 +92,40 @@ export const Navigation = () => {
                   </Link>
                 </NavigationMenuItem>
 
+                {/* Mẫu nhà đẹp - HoverCard */}
+                <NavigationMenuItem>
+                  <HoverCard openDelay={0} closeDelay={100}>
+                    <HoverCardTrigger asChild>
+                      <div
+                        className={cn(
+                          "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent cursor-pointer",
+                          isProjectsActive ? "text-accent" : "text-foreground/80"
+                        )}
+                      >
+                        Mẫu nhà đẹp
+                        <ChevronDown className="ml-1 h-3 w-3 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                      </div>
+                    </HoverCardTrigger>
+                    <HoverCardContent align="start" className="w-[220px] p-2 bg-popover border-border shadow-md">
+                      <div className="flex flex-col gap-1">
+                        {projectCategories.map((category) => (
+                          <Link
+                            key={category.href}
+                            to={category.href}
+                            className={cn(
+                              "block select-none rounded-md p-3 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent/10 hover:text-accent",
+                              isActive(category.href)
+                                ? "bg-accent/5 text-accent font-medium"
+                                : "text-foreground"
+                            )}
+                          >
+                            {category.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </HoverCardContent>
+                  </HoverCard>
+                </NavigationMenuItem>
                 {/* Dịch vụ */}
                 <NavigationMenuItem>
                   <a href="/#dich-vu">
@@ -100,39 +139,6 @@ export const Navigation = () => {
                     </NavigationMenuLink>
                   </a>
                 </NavigationMenuItem>
-
-                {/* Mẫu nhà đẹp - Dropdown */}
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger
-                    className={cn(
-                      "bg-transparent hover:bg-transparent hover:text-accent data-[state=open]:bg-transparent",
-                      isProjectsActive ? "text-accent" : "text-foreground/80"
-                    )}
-                  >
-                    Mẫu nhà đẹp
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[200px] gap-1 p-2">
-                      {projectCategories.map((category) => (
-                        <li key={category.href}>
-                          <Link to={category.href}>
-                            <NavigationMenuLink
-                              className={cn(
-                                "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/10 hover:text-accent focus:bg-accent/10",
-                                isActive(category.href)
-                                  ? "bg-accent/10 text-accent"
-                                  : "text-foreground/80"
-                              )}
-                            >
-                              {category.name}
-                            </NavigationMenuLink>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-
                 {/* Báo giá */}
                 <NavigationMenuItem>
                   <a href="/#bao-gia">

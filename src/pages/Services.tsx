@@ -13,7 +13,7 @@ import {
     Brush,
     DraftingCompass
 } from "lucide-react";
-import heroImage from "@/assets/hero-interior.jpg";
+import heroImage from "@/assets/project-apartment.png";
 
 const servicesDetails = [
     {

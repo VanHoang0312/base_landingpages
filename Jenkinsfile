@@ -32,7 +32,7 @@ pipeline {
                                 remoteDirectory: './thinklabsdev/daihathanh-homeCI',
                                 remoteDirectorySDF: false,
                                 removePrefix: '',
-                                sourceFiles: '*, app/, public/'
+                                sourceFiles: '*, src/, public/'
                             )],
                         usePromotionTimestamp: false,
                         useWorkspaceInPromotion: false,

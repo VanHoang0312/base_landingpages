@@ -64,7 +64,7 @@ export const Footer = () => {
               <div className="flex items-center gap-3 text-sm">
                 <MapPin className="w-4 h-4 text-accent flex-shrink-0" />
                 <span className="text-primary-foreground/70">
-                  Lô 13 - LK3 - KĐT An Phú Hưng, Thanh Hóa
+                  Lô 13 - LK3 - KĐT An Phú Hưng, Phường Hạc Thành, Thanh Hóa
                 </span>
               </div>
               <div className="flex items-center gap-3 text-sm">
@@ -167,7 +167,7 @@ export const Footer = () => {
         <div className="container-custom py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-primary-foreground/60 text-center md:text-left">
-              © 2024 Công ty TNHH Đại Hà Thanh. Bản quyền thuộc về Đại Hà Thanh.
+              © 2026 Công ty TNHH Đại Hà Thanh. Bản quyền thuộc về Đại Hà Thanh.
             </p>
 
             <Button

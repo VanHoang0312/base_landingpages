@@ -42,7 +42,7 @@ const ProjectDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       <main className="pt-20">
         {/* Hero Image */}
         <section className="relative h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden">
@@ -52,11 +52,11 @@ const ProjectDetail = () => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/50 to-transparent" />
-          
+
           <div className="absolute bottom-0 left-0 right-0 pb-8 md:pb-12">
             <div className="container-custom">
               <Breadcrumbs items={breadcrumbItems} />
-              
+
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -203,7 +203,7 @@ const ProjectDetail = () => {
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-accent" />
-                <span>Lô 13 - LK3 - KĐT An Phú Hưng, Thanh Hóa</span>
+                <span>Lô 13 - LK3 - KĐT An Phú Hưng, Phường Hạc Thành, Thanh Hóa</span>
               </div>
               <div className="flex items-center gap-6">
                 <span>Hotline: 0927.366.678</span>

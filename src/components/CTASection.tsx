@@ -148,7 +148,7 @@ export const CTASection = () => {
                 <div>
                   <p className="text-sm text-primary-foreground/60">Địa chỉ</p>
                   <p className="font-semibold">
-                    Lô 13 - LK3 - KĐT An Phú Hưng, Thanh Hóa
+                    Lô 13 - LK3 - KĐT An Phú Hưng, Phường Hạc Thành, Thanh Hóa
                   </p>
                 </div>
               </div>

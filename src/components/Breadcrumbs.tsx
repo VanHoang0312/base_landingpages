@@ -32,7 +32,7 @@ export const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
               {item.label}
             </Link>
           ) : (
-            <span className="text-foreground font-medium">{item.label}</span>
+            <span className="text-white font-medium">{item.label}</span>
           )}
         </div>
       ))}

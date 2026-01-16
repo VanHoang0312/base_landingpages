@@ -128,11 +128,11 @@ export const Navigation = () => {
                 </NavigationMenuItem>
                 {/* Dịch vụ */}
                 <NavigationMenuItem>
-                  <a href="/#dich-vu">
+                  <a href="/dich-vu">
                     <NavigationMenuLink
                       className={cn(
                         "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent focus:text-accent focus:outline-none",
-                        isActive("/#dich-vu") ? "text-accent" : "text-foreground/80"
+                        isActive("/dich-vu") ? "text-accent" : "text-foreground/80"
                       )}
                     >
                       Dịch vụ

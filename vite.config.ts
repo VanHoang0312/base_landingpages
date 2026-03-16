@@ -8,6 +8,16 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
     allowedHosts: ["terp-dev.thinklabs.com.vn"],
+    proxy: {
+      "/api": {
+        target: "http://terp-dev.thinklabs.com.vn:8080",
+        changeOrigin: true,
+      },
+      "/upload": {
+        target: "http://terp-dev.thinklabs.com.vn:8080",
+        changeOrigin: true,
+      },
+    },
   },
   plugins: [react()].filter(Boolean),
   resolve: {

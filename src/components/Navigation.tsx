@@ -23,19 +23,16 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
+import { websiteCategoryService, type WebsiteCategory } from "@/services/api";
+import { buildCategoryHref } from "@/utils/projectMapper";
 
-const projectCategories = [
-  { name: "Đã thi công", href: "/mau-nha-dep/da-thi-cong" },
-  { name: "Thiết kế", href: "/mau-nha-dep/thiet-ke" },
-  { name: "Nội thất", href: "/mau-nha-dep/noi-that" },
-  { name: "Xây mới", href: "/mau-nha-dep/xay-moi" },
-  { name: "Sửa nhà", href: "/mau-nha-dep/sua-nha" },
-];
+const defaultCategories = [{ name: "Mẫu nhà đẹp", href: "/mau-nha-dep" }];
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
+  const [projectCategories, setProjectCategories] = useState<Array<{ name: string; href: string }>>(defaultCategories);
   const location = useLocation();
 
   useEffect(() => {
@@ -44,6 +41,29 @@ export const Navigation = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadCategories = async () => {
+      try {
+        const response = await websiteCategoryService.getAllPublic({ pageSize: 0, sort: "sortOrder" });
+        const rows = (response?.rows || []) as WebsiteCategory[];
+        if (!isMounted) return;
+        if (!rows.length) {
+          setProjectCategories(defaultCategories);
+          return;
+        }
+        setProjectCategories(rows.map(item => ({ name: item.name, href: buildCategoryHref(item) })));
+      } catch (_err) {
+        if (!isMounted) return;
+        setProjectCategories(defaultCategories);
+      }
+    };
+    loadCategories();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const isActive = (href: string) => location.pathname === href;

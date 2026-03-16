@@ -1,35 +1,64 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ProjectCard } from "@/components/ProjectCard";
-import {
-  getProjectsByCategory,
-  getAllProjects,
-  categoryLabels,
-  type ProjectCategory,
-} from "@/data/projects";
+import { websiteCategoryService, websitePostService, type WebsiteCategory, type WebsitePost } from "@/services/api";
+import { mapPostToProject } from "@/utils/projectMapper";
+import type { Project } from "@/data/projects";
 
 const ProjectArchive = () => {
   const { category } = useParams<{ category: string }>();
-  
-  const categoryKey = category as ProjectCategory;
-  const isValidCategory = categoryKey && categoryKey in categoryLabels;
-  
-  const projects = isValidCategory
-    ? getProjectsByCategory(categoryKey)
-    : getAllProjects();
-  
-  const pageTitle = isValidCategory
-    ? categoryLabels[categoryKey]
-    : "Tất cả dự án";
+  const DEFAULT_SUBTITLE = "Khám phá bộ sưu tập các công trình kiến trúc và nội thất đẳng cấp của Đại Hà Thanh";
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [pageTitle, setPageTitle] = useState("Tất cả dự án");
+  const [pageSubtitle, setPageSubtitle] = useState(DEFAULT_SUBTITLE);
 
-  const breadcrumbItems = isValidCategory
+  useEffect(() => {
+    let isMounted = true;
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        const categoryRes = await websiteCategoryService.getAllPublic({ pageSize: 0, sort: "sortOrder" });
+        const categoryRows = (categoryRes?.rows || []) as WebsiteCategory[];
+        const selectedCategory = category ? categoryRows.find(item => item.slug === category || item.code === category) : null;
+
+        const postParams: Record<string, unknown> = { pageSize: 0, sort: "-publishedAt" };
+        if (selectedCategory?.slug) {
+          postParams.categorySlug = selectedCategory.slug;
+        }
+
+        const postRes = await websitePostService.getAllPublic(postParams);
+        const postRows = (postRes?.rows || []) as WebsitePost[];
+        if (!isMounted) return;
+
+        setProjects(postRows.map(item => mapPostToProject(item, selectedCategory?.slug || category || "tat-ca")));
+        setPageTitle(selectedCategory?.name || "Tất cả dự án");
+        setPageSubtitle(selectedCategory?.description?.trim() || DEFAULT_SUBTITLE);
+      } catch (_err) {
+        if (!isMounted) return;
+        setProjects([]);
+        setPageTitle("Tất cả dự án");
+        setPageSubtitle(DEFAULT_SUBTITLE);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    loadData();
+    return () => {
+      isMounted = false;
+    };
+  }, [category]);
+
+  const breadcrumbItems = category
     ? [
-        { label: "Mẫu nhà đẹp", href: "/mau-nha-dep" },
-        { label: pageTitle },
-      ]
+      { label: "Mẫu nhà đẹp", href: "/mau-nha-dep" },
+      { label: pageTitle },
+    ]
     : [{ label: "Mẫu nhà đẹp" }];
 
   return (
@@ -51,7 +80,7 @@ const ProjectArchive = () => {
                 {pageTitle}
               </h1>
               <p className="text-lg text-white/70 max-w-2xl">
-                Khám phá bộ sưu tập các công trình kiến trúc và nội thất đẳng cấp của Đại Hà Thanh
+                {pageSubtitle}
               </p>
             </motion.div>
           </div>
@@ -60,7 +89,11 @@ const ProjectArchive = () => {
         {/* Projects Grid */}
         <section className="py-16 md:py-24">
           <div className="container-custom">
-            {projects.length > 0 ? (
+            {loading ? (
+              <div className="text-center py-16">
+                <p className="text-muted-foreground text-lg">Đang tải dữ liệu...</p>
+              </div>
+            ) : projects.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 {projects.map((project, index) => (
                   <ProjectCard key={project.id} project={project} index={index} />

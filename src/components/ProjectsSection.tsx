@@ -1,79 +1,55 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { websitePostService, type WebsitePost } from "@/services/api";
+import { mapPostToProject } from "@/utils/projectMapper";
 
-import projectDuplex from "@/assets/project-kitchen.png";
-import projectVilla from "@/assets/project-villa.png";
-import projectApartment from "@/assets/project-apartment.png";
-import projectOffice from "@/assets/project-office.png";
-import projectPenthouse from "@/assets/project-penthouse.png";
-import projectResort from "@/assets/project-resort.png";
-import projectBungalow from "@/assets/project-resort.png";
-const projects = [
-  {
-    slug: "thiet-ke-bep-hien-dai-2k",
-    title: "Nội Thất Bếp 2K",
-    category: "Nội thất cao cấp",
-    location: "Thanh Hóa",
-    image: projectDuplex,
-    size: "large",
-  },
-  {
-    slug: "villa-sang-trong",
-    title: "Villa Sang Trọng",
-    category: "Biệt thự",
-    location: "Sầm Sơn",
-    image: projectVilla,
-    size: "large",
-  },
-  {
-    slug: "nha-pho-3-the-he",
-    title: "Căn Hộ Hiện Đại",
-    category: "Nội thất",
-    location: "Thanh Hóa",
-    image: projectApartment,
-    size: "small",
-  },
-  {
-    slug: "van-phong-hien-dai",
-    title: "Văn Phòng Cao Cấp",
-    category: "Thương mại",
-    location: "Thanh Hóa",
-    image: projectOffice,
-    size: "small",
-  },
-  {
-    slug: "bungalow-nghi-duong",
-    title: "Bungalow",
-    category: "Biệt thự",
-    location: "Thanh Hóa",
-    image: projectBungalow,
-    size: "medium",
-  },
-  {
-    slug: "penthouse-view-song-ma",
-    title: "Penthouse Thượng Lưu",
-    category: "Căn hộ cao cấp",
-    location: "TP. Thanh Hóa",
-    image: projectPenthouse,
-    size: "medium",
-  },
-  {
-    slug: "resort-sang-trong",
-    title: "Resort Sang Trọng",
-    category: "Biệt thự",
-    location: "Sầm Sơn",
-    image: projectResort,
-    size: "medium",
-  },
-];
+const projectSizes = ["large", "large", "small", "small", "medium", "medium", "medium"];
 
 export const ProjectsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [projects, setProjects] = useState<Array<{
+    slug: string;
+    title: string;
+    category: string;
+    location: string;
+    image: string;
+    size: string;
+  }>>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadProjects = async () => {
+      try {
+        const response = await websitePostService.getAllPublic({ page: 1, pageSize: 7, sort: "-publishedAt" });
+        const rows = (response?.rows || []) as WebsitePost[];
+        if (!isMounted) return;
+        const mapped = rows.map((item, index) => {
+          const project = mapPostToProject(item);
+          return {
+            slug: project.slug,
+            title: project.title,
+            category: project.categoryLabel,
+            location: project.specs.location,
+            image: project.image,
+            size: projectSizes[index] || "medium",
+          };
+        });
+        setProjects(mapped);
+      } catch (_err) {
+        if (!isMounted) return;
+        setProjects([]);
+      }
+    };
+    loadProjects();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <section id="du-an" className="section-padding bg-secondary">
@@ -94,7 +70,7 @@ export const ProjectsSection = () => {
               <span className="block text-accent">Đã Hoàn Thành</span>
             </h2>
           </div>
-          <Link to="/mau-nha-dep/da-thi-cong">
+          <Link to="/mau-nha-dep">
             <Button variant="gold" size="lg">
               Xem Tất Cả
               <ArrowUpRight className="w-4 h-4 ml-2" />
@@ -103,13 +79,14 @@ export const ProjectsSection = () => {
         </motion.div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-          {projects.map((project, index) => (
+        {projects.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+            {projects.map((project, index) => (
             <Link
               key={project.title + index}
               to={`/du-an/${project.slug}`}
               className={cn(
-                "group relative block overflow-hidden rounded-2xl bg-charcoal transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)]",
+                "group relative block overflow-hidden rounded-2xl  transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)]",
                 project.size === "large" ? "md:row-span-2" : ""
               )}
             >
@@ -164,8 +141,13 @@ export const ProjectsSection = () => {
                 <div className="absolute inset-0 rounded-2xl border border-white/5 transition-colors duration-500 group-hover:border-white/20" />
               </motion.div>
             </Link>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8 text-muted-foreground">
+            Dữ liệu bài viết đang được cập nhật.
+          </div>
+        )}
       </div>
     </section>
   );

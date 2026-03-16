@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Calendar, MapPin, Ruler, Banknote, Home, ArrowLeft, MessageCircle } from "lucide-react";
@@ -5,13 +6,45 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Button } from "@/components/ui/button";
-import { getProjectBySlug, categoryLabels } from "@/data/projects";
+import { websitePostService, type WebsitePost } from "@/services/api";
+import { formatDateDisplay, mapPostToProject } from "@/utils/projectMapper";
 
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const project = slug ? getProjectBySlug(slug) : undefined;
+  const [post, setPost] = useState<WebsitePost | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!project) {
+  useEffect(() => {
+    let isMounted = true;
+    const loadPost = async () => {
+      if (!slug) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await websitePostService.getPublicBySlug(slug);
+        if (!isMounted) return;
+        setPost(response || null);
+      } catch (_err) {
+        if (!isMounted) return;
+        setPost(null);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    loadPost();
+    return () => {
+      isMounted = false;
+    };
+  }, [slug]);
+
+  const project = post ? mapPostToProject(post) : null;
+  const categoryObj = post && typeof post.categoryId === "object" ? post.categoryId : null;
+  const categorySlug = categoryObj?.slug || "tat-ca";
+
+  if (!loading && !project) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
@@ -33,9 +66,23 @@ const ProjectDetail = () => {
     );
   }
 
+  if (loading || !project) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <main className="pt-32 pb-16">
+          <div className="container-custom text-center">
+            <h1 className="font-display text-3xl font-bold mb-4">Đang tải dự án...</h1>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   const breadcrumbItems = [
-    { label: "Mẫu nhà đẹp", href: `/mau-nha-dep/${project.category}` },
-    { label: categoryLabels[project.category], href: `/mau-nha-dep/${project.category}` },
+    { label: "Mẫu nhà đẹp", href: `/mau-nha-dep/${categorySlug}` },
+    { label: project.categoryLabel, href: `/mau-nha-dep/${categorySlug}` },
     { label: project.title },
   ];
 
@@ -71,7 +118,7 @@ const ProjectDetail = () => {
                 <div className="flex items-center gap-4 text-white/70">
                   <span className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
-                    {project.dateDisplay}
+                    {formatDateDisplay(post?.publishedAt || post?.createdAt) || project.dateDisplay}
                   </span>
                   <span className="flex items-center gap-1">
                     <MapPin className="w-4 h-4" />

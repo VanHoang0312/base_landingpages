@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:dev": "vite build --mode development",
+    "dev": "node scripts/vite-webcrypto.cjs",
+    "build": "node scripts/vite-webcrypto.cjs build",
+    "build:dev": "node scripts/vite-webcrypto.cjs build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "node scripts/vite-webcrypto.cjs preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -40,6 +40,7 @@
     "@radix-ui/react-toggle-group": "^1.1.10",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@tanstack/react-query": "^5.83.0",
+    "@tanstack/react-table": "^8.21.3",
     "axios": "^1.13.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

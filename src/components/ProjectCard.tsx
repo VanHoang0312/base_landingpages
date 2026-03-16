@@ -8,6 +8,7 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard = ({ project, index }: ProjectCardProps) => {
+  const [day, month] = (project.dateDisplay || "-- --").split(" ");
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -31,10 +32,10 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => {
           {/* Date Badge */}
           <div className="absolute top-4 left-4 bg-accent text-charcoal px-3 py-2 rounded-lg text-center">
             <span className="block text-lg font-bold leading-none">
-              {project.dateDisplay.split(" ")[0]}
+              {day}
             </span>
             <span className="block text-xs uppercase mt-0.5">
-              {project.dateDisplay.split(" ")[1]}
+              {month}
             </span>
           </div>
 

@@ -27,6 +27,13 @@ export const formatDateDisplay = (dateInput?: string) => {
 
 export const buildCategoryHref = (category: WebsiteCategory) => `/mau-nha-dep/${category.slug || category.code || category._id}`;
 
+const toExcerpt = (content?: string, maxLength = 140) => {
+    if (!content) return "";
+    const plain = content.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+    if (plain.length <= maxLength) return plain;
+    return `${plain.slice(0, maxLength).trim()}…`;
+};
+
 export const mapPostToProject = (post: WebsitePost, fallbackCategorySlug = "tat-ca"): Project => {
     const categoryObj = typeof post.categoryId === "object" ? post.categoryId : null;
     const categorySlug = categoryObj?.slug || fallbackCategorySlug;
@@ -37,7 +44,7 @@ export const mapPostToProject = (post: WebsitePost, fallbackCategorySlug = "tat-
         id: post._id,
         slug: post.slug,
         title: post.title,
-        excerpt: post.summary || "",
+        excerpt: toExcerpt(post.content || ""),
         category: categorySlug as Project["category"],
         categoryLabel,
         image: normalizeImageUrl(post.thumbnail) || normalizeImageUrl(post.images?.[0]) || fallbackImage,
@@ -50,6 +57,6 @@ export const mapPostToProject = (post: WebsitePost, fallbackCategorySlug = "tat-
             location: post.location || "--",
         },
         features: Array.isArray(post.features) && post.features.length ? post.features : ["Thông tin đang cập nhật"],
-        description: post.content || post.summary || "",
+        description: post.content || "",
     };
 };

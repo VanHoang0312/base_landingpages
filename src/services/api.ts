@@ -35,7 +35,6 @@ export interface WebsitePost {
     _id: string;
     title: string;
     slug: string;
-    summary?: string;
     content?: string;
     categoryId?: WebsiteCategory | string;
     categoryName?: string;

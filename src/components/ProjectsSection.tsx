@@ -18,6 +18,7 @@ export const ProjectsSection = () => {
     category: string;
     location: string;
     image: string;
+    dateDisplay: string;
     size: string;
   }>>([]);
 
@@ -36,6 +37,7 @@ export const ProjectsSection = () => {
             category: project.categoryLabel,
             location: project.specs.location,
             image: project.image,
+            dateDisplay: project.dateDisplay,
             size: projectSizes[index] || "medium",
           };
         });
@@ -111,6 +113,16 @@ export const ProjectsSection = () => {
                   className="w-full h-full object-cover transition-transform duration-600 group-hover:scale-110"
                   loading="lazy"
                 />
+
+                {/* Date Badge */}
+                <div className="absolute top-4 left-4 bg-accent text-charcoal px-3 py-2 rounded-lg text-center shadow-md">
+                  <span className="block text-lg font-bold leading-none">
+                    {(project.dateDisplay || "-- --").split(" ")[0]}
+                  </span>
+                  <span className="block text-xs uppercase mt-0.5">
+                    {(project.dateDisplay || "-- --").split(" ")[1]}
+                  </span>
+                </div>
 
                 {/* Advanced Multi-layer Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />

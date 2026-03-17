@@ -6,8 +6,8 @@ import path from "path";
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
-    port: 8080,
-    allowedHosts: ["terp-dev.thinklabs.com.vn"],
+    port: 8081,
+    allowedHosts: ["terp-dev.thinklabs.com.vn" ],
     proxy: {
       "/api": {
         target: "http://terp-dev.thinklabs.com.vn:8080",

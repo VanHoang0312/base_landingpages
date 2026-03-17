@@ -9,6 +9,18 @@ import { Button } from "@/components/ui/button";
 import { websitePostService, type WebsitePost } from "@/services/api";
 import { formatDateDisplay, mapPostToProject } from "@/utils/projectMapper";
 
+const normalizeImageUrl = (url?: string) => {
+  if (!url) return "";
+  const value = url.toString().trim();
+  if (!value) return "";
+  if (value.startsWith("http://") || value.startsWith("https://")) return value;
+  if (value.startsWith("/api/")) return value;
+  if (value.startsWith("/upload/")) return value;
+  if (value.startsWith("/")) return value;
+  if (value.includes("/")) return `/${value}`;
+  return `/api/file/image/${value}`;
+};
+
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<WebsitePost | null>(null);
@@ -43,6 +55,13 @@ const ProjectDetail = () => {
   const project = post ? mapPostToProject(post) : null;
   const categoryObj = post && typeof post.categoryId === "object" ? post.categoryId : null;
   const categorySlug = categoryObj?.slug || "tat-ca";
+  const galleryImages = Array.from(
+    new Set(
+      [post?.thumbnail, ...(Array.isArray(post?.images) ? post.images : [])]
+        .map(item => normalizeImageUrl(item))
+        .filter(Boolean)
+    )
+  );
 
   if (!loading && !project) {
     return (
@@ -189,6 +208,7 @@ const ProjectDetail = () => {
           </div>
         </section>
 
+
         {/* Description */}
         <section className="py-12 bg-muted/30">
           <div className="container-custom">
@@ -211,6 +231,41 @@ const ProjectDetail = () => {
           </div>
         </section>
 
+        {/* Gallery */}
+        {galleryImages.length > 0 ? (
+          <section className="py-12 bg-background">
+            <div className="container-custom">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <h2 className="font-display text-2xl font-bold mb-6">
+                  Thư viện ảnh
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {galleryImages.map((image, index) => (
+                    <a
+                      key={`${image}-${index}`}
+                      href={image}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block rounded-xl overflow-hidden border border-border hover:border-accent/60 transition-colors"
+                    >
+                      <img
+                        src={image}
+                        alt={`${project.title} - ${index + 1}`}
+                        className="w-full h-64 object-cover"
+                        loading="lazy"
+                      />
+                    </a>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+          </section>
+        ) : null}
         {/* CTA & Contact */}
         <section className="py-12 border-t border-border">
           <div className="container-custom">
@@ -260,8 +315,8 @@ const ProjectDetail = () => {
           </div>
         </section>
 
-        {/* Comments Section Placeholder */}
-        <section className="py-12">
+        {/* Comments Section Placeholder (tạm ẩn) */}
+        {/* <section className="py-12">
           <div className="container-custom">
             <h3 className="font-display text-xl font-bold mb-6">
               Bình luận
@@ -276,7 +331,7 @@ const ProjectDetail = () => {
               </Button>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
 
       <Footer />

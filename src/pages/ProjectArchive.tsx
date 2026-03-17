@@ -27,8 +27,8 @@ const ProjectArchive = () => {
         const selectedCategory = category ? categoryRows.find(item => item.slug === category || item.code === category) : null;
 
         const postParams: Record<string, unknown> = { pageSize: 0, sort: "-publishedAt" };
-        if (selectedCategory?.slug) {
-          postParams.categorySlug = selectedCategory.slug;
+        if (selectedCategory?._id) {
+          postParams.categoryId = selectedCategory._id;
         }
 
         const postRes = await websitePostService.getAllPublic(postParams);

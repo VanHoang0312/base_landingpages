@@ -10,11 +10,11 @@ export default defineConfig(({ mode }) => ({
     allowedHosts: ["terp-dev.thinklabs.com.vn" ],
     proxy: {
       "/api": {
-        target: "http://terp-dev.thinklabs.com.vn:8080",
+        target: "https://terp-daihathanh.thinklabs.com.vn",
         changeOrigin: true,
       },
       "/upload": {
-        target: "http://terp-dev.thinklabs.com.vn:8080",
+        target: "https://terp-daihathanh.thinklabs.com.vn",
         changeOrigin: true,
       },
     },

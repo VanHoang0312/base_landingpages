@@ -13,6 +13,9 @@ import Introduction from "./pages/Introduction";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import Recruitment from "./pages/Recruitment";
+import RecruitmentDetail from "./pages/RecruitmentDetail";
+import RecruitmentApply from "./pages/RecruitmentApply";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +44,11 @@ const App = () => (
           <Route path="/mau-nha-dep" element={<ProjectArchive />} />
           <Route path="/mau-nha-dep/:category" element={<ProjectArchive />} />
           <Route path="/du-an/:slug" element={<ProjectDetail />} />
+
+          {/* Recruitment Routes */}
+          <Route path="/tuyen-dung" element={<Recruitment />} />
+          <Route path="/tuyen-dung/:slug" element={<RecruitmentDetail />} />
+          <Route path="/tuyen-dung/:slug/ung-tuyen" element={<RecruitmentApply />} />
 
           {/* Other Pages */}
           <Route path="/dich-vu" element={<Services />} />

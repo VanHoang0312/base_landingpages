@@ -173,6 +173,20 @@ export const Navigation = () => {
                   </a>
                 </NavigationMenuItem>
 
+                {/* Tuyển dụng */}
+                <NavigationMenuItem>
+                  <Link to="/tuyen-dung">
+                    <NavigationMenuLink
+                      className={cn(
+                        "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent focus:text-accent focus:outline-none",
+                        isActive("/tuyen-dung") ? "text-accent" : "text-foreground/80"
+                      )}
+                    >
+                      Tuyển dụng
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+
                 {/* Giới thiệu */}
                 <NavigationMenuItem>
                   <Link to="/gioi-thieu">
@@ -297,6 +311,18 @@ export const Navigation = () => {
                     >
                       Báo giá
                     </a>
+
+                    {/* Tuyển dụng */}
+                    <Link
+                      to="/tuyen-dung"
+                      onClick={() => setIsOpen(false)}
+                      className={cn(
+                        "text-lg font-medium py-3 border-b border-border transition-colors",
+                        isActive("/tuyen-dung") ? "text-accent" : "text-foreground hover:text-accent"
+                      )}
+                    >
+                      Tuyển dụng
+                    </Link>
 
                     {/* Giới thiệu */}
                     <Link

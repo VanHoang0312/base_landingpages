@@ -21,6 +21,7 @@ const normalizeImageUrl = (url?: string) => {
   return `/api/file/image/${value}`;
 };
 
+
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<WebsitePost | null>(null);
@@ -55,13 +56,7 @@ const ProjectDetail = () => {
   const project = post ? mapPostToProject(post) : null;
   const categoryObj = post && typeof post.categoryId === "object" ? post.categoryId : null;
   const categorySlug = categoryObj?.slug || "tat-ca";
-  const galleryImages = Array.from(
-    new Set(
-      [post?.thumbnail, ...(Array.isArray(post?.images) ? post.images : [])]
-        .map(item => normalizeImageUrl(item))
-        .filter(Boolean)
-    )
-  );
+  const imageGallery = post?.imageGallery ?? [];
 
   if (!loading && !project) {
     return (
@@ -210,7 +205,7 @@ const ProjectDetail = () => {
 
 
         {/* Description */}
-        <section className="py-12 bg-muted/30">
+        <section className="py-8 bg-muted/30">
           <div className="container-custom">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -222,18 +217,16 @@ const ProjectDetail = () => {
               <h2 className="font-display text-2xl font-bold mb-6">
                 Mô tả dự án
               </h2>
-              <div className="prose prose-lg max-w-none">
-                <p className="text-muted-foreground leading-relaxed">
-                  {project.description}
-                </p>
-              </div>
+              <div
+                className="prose prose-lg max-w-none text-muted-foreground leading-relaxed [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-accent/80 [&_a]:break-all"
+                dangerouslySetInnerHTML={{ __html: project.description }}
+              />
             </motion.div>
           </div>
         </section>
-
-        {/* Gallery */}
-        {galleryImages.length > 0 ? (
-          <section className="py-12 bg-background">
+        
+        {imageGallery.length > 0 && (
+          <section className="py-5 bg-background">
             <div className="container-custom">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -241,31 +234,46 @@ const ProjectDetail = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
               >
-                <h2 className="font-display text-2xl font-bold mb-6">
+                <h2 className="font-display text-2xl font-bold mb-8">
                   Thư viện ảnh
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {galleryImages.map((image, index) => (
-                    <a
-                      key={`${image}-${index}`}
-                      href={image}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block rounded-xl overflow-hidden border border-border hover:border-accent/60 transition-colors"
-                    >
-                      <img
-                        src={image}
-                        alt={`${project.title} - ${index + 1}`}
-                        className="w-full h-64 object-cover"
-                        loading="lazy"
-                      />
-                    </a>
+                <div className="space-y-10">
+                  {imageGallery.map((floorGroup) => (
+                    <div key={floorGroup._id}>
+                      <h3 className="font-display text-xl font-semibold mb-4 flex items-center gap-2">
+                        <span className="inline-block w-1 h-6 bg-accent rounded-full" />
+                        {floorGroup.categoryName}
+                      </h3>
+                      {floorGroup.images.map((imgGroup) => (
+                        <div
+                          key={imgGroup._id}
+                          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+                        >
+                          {imgGroup.imageUrls.map((url, idx) => (
+                            <a
+                              key={`${url}-${idx}`}
+                              href={normalizeImageUrl(url)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block rounded-xl overflow-hidden border border-border hover:border-accent/60 transition-colors"
+                            >
+                              <img
+                                src={normalizeImageUrl(url)}
+                                alt={`${project.title} - ${floorGroup.categoryName} - ${idx + 1}`}
+                                className="w-full h-64 object-cover"
+                                loading="lazy"
+                              />
+                            </a>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
                   ))}
                 </div>
               </motion.div>
             </div>
           </section>
-        ) : null}
+        )}
         {/* CTA & Contact */}
         <section className="py-12 border-t border-border">
           <div className="container-custom">

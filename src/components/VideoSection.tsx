@@ -103,7 +103,7 @@ export const VideoSection = () => {
     carouselApi.on("reInit", update);
   }, [carouselApi]);
 
-  if (!loading && videos.length === 0) return null;
+  if (loading || videos.length === 0) return null;
 
   const useCarousel = !loading && videos.length > 3;
 

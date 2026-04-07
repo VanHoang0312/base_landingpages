@@ -31,6 +31,19 @@ export interface WebsiteCategory {
     sortOrder?: number;
 }
 
+export interface ImageGalleryItem {
+    level: number;
+    imageUrls: string[];
+    _id: string;
+}
+
+export interface ImageGalleryGroup {
+    _id: string;
+    categoryId: string;
+    categoryName: string;
+    images: ImageGalleryItem[];
+}
+
 export interface WebsitePost {
     _id: string;
     title: string;
@@ -40,6 +53,7 @@ export interface WebsitePost {
     categoryName?: string;
     thumbnail?: string;
     images?: string[];
+    imageGallery?: ImageGalleryGroup[];
     location?: string;
     area?: string;
     budget?: string;
@@ -82,4 +96,86 @@ export const websitePostService = {
         const response = await apiClient.get(`/websitePost/public/${slug}`);
         return response.data as WebsitePost;
     },
+};
+
+export interface WebsiteVideo {
+    _id: string;
+    title: string;
+    slug: string;
+    youtubeUrl?: string;
+    thumbnail?: string;
+    description?: string;
+    content?: string;
+    status?: "DRAFT" | "PUBLISHED";
+    publishedAt?: string;
+    sortOrder?: number;
+    createdAt?: string;
+    updatedAt?: string;
+}
+
+export const websiteVideoService = {
+    getAllPublic: async (params?: Record<string, unknown>) => {
+        const response = await apiClient.get("/websiteVideo/get-all-public", { params });
+        return response.data;
+    },
+    getBySlug: async (slug: string) => {
+        const response = await apiClient.get(`/websiteVideo/get-all-public`, { params: { slug } });
+        const data = response.data;
+        const rows = data?.rows || [];
+        return (rows[0] as WebsiteVideo) || null;
+    },
+};
+
+export interface WebsiteRecruitment {
+    _id: string;
+    title: string;
+    slug: string;
+    type?: string;
+    officeId?: {
+        _id: string;
+        officeName: string;
+        officeAddress?: string;
+        officePhone?: string;
+        officeEmail?: string;
+    } | string;
+    salary?: string;
+    deadline?: string;
+    image?: string;
+    summary?: string;
+    description?: string;
+    requirements?: string[];
+    benefits?: string[];
+    status?: "OPEN" | "CLOSED" | "DRAFT" | "EXPIRED";
+    sortOrder?: number;
+    createdAt?: string;
+    updatedAt?: string;
+}
+
+export const websiteRecruitmentService = {
+    getAllPublic: async (params?: Record<string, unknown>) => {
+        const response = await apiClient.get("/websiteRecruitment/get-all-public", { params });
+        return response.data;
+    },
+    getBySlug: async (slug: string) => {
+        const response = await apiClient.get(`/websiteRecruitment/slug/${slug}`);
+        return response.data as WebsiteRecruitment;
+    },
+    apply: async (data: {
+        recruitmentId?: string;
+        candidateName: string;
+        email: string;
+        phoneNumber: string;
+        cv?: string;
+        coverLetter?: string;
+    }) => {
+        const response = await apiClient.post("/websiteRecruitment/apply", data);
+        return response.data;
+    },
+    uploadCv: async (file: File) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        const response = await axios.post("/upload/upload-cv-public", formData);
+        return response.data as { success: boolean; fileName: string; url: string };
+    },
+
 };

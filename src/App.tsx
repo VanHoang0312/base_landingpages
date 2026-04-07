@@ -16,6 +16,8 @@ import NotFound from "./pages/NotFound";
 import Recruitment from "./pages/Recruitment";
 import RecruitmentDetail from "./pages/RecruitmentDetail";
 import RecruitmentApply from "./pages/RecruitmentApply";
+import VideoArchive from "./pages/VideoArchive";
+import VideoDetail from "./pages/VideoDetail";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +51,10 @@ const App = () => (
           <Route path="/tuyen-dung" element={<Recruitment />} />
           <Route path="/tuyen-dung/:slug" element={<RecruitmentDetail />} />
           <Route path="/tuyen-dung/:slug/ung-tuyen" element={<RecruitmentApply />} />
+
+          {/* Video Routes */}
+          <Route path="/video" element={<VideoArchive />} />
+          <Route path="/video/:slug" element={<VideoDetail />} />
 
           {/* Other Pages */}
           <Route path="/dich-vu" element={<Services />} />

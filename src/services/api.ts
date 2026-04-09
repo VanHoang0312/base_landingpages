@@ -31,17 +31,17 @@ export interface WebsiteCategory {
     sortOrder?: number;
 }
 
-export interface ImageGalleryItem {
-    level: number;
-    imageUrls: string[];
-    _id: string;
-}
-
-export interface ImageGalleryGroup {
+export interface ImageGalleryRoom {
     _id: string;
     categoryId: string;
     categoryName: string;
-    images: ImageGalleryItem[];
+    imageUrls: string[];
+}
+
+export interface ImageGalleryFloor {
+    _id: string;
+    floorIndex: number;
+    rooms: ImageGalleryRoom[];
 }
 
 export interface WebsitePost {
@@ -53,7 +53,7 @@ export interface WebsitePost {
     categoryName?: string;
     thumbnail?: string;
     images?: string[];
-    imageGallery?: ImageGalleryGroup[];
+    imageGallery?: ImageGalleryFloor[];
     location?: string;
     area?: string;
     budget?: string;

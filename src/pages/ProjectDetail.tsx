@@ -237,36 +237,40 @@ const ProjectDetail = () => {
                 <h2 className="font-display text-2xl font-bold mb-8">
                   Thư viện ảnh
                 </h2>
-                <div className="space-y-10">
-                  {imageGallery.map((floorGroup) => (
-                    <div key={floorGroup._id}>
-                      <h3 className="font-display text-xl font-semibold mb-4 flex items-center gap-2">
+                <div className="space-y-12">
+                  {imageGallery.map((floor) => (
+                    <div key={floor._id}>
+                      <h3 className="font-display text-xl font-semibold mb-6 flex items-center gap-2">
                         <span className="inline-block w-1 h-6 bg-accent rounded-full" />
-                        {floorGroup.categoryName}
+                        Tầng {floor.floorIndex}
                       </h3>
-                      {floorGroup.images.map((imgGroup) => (
-                        <div
-                          key={imgGroup._id}
-                          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-                        >
-                          {imgGroup.imageUrls.map((url, idx) => (
-                            <a
-                              key={`${url}-${idx}`}
-                              href={normalizeImageUrl(url)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="block rounded-xl overflow-hidden border border-border hover:border-accent/60 transition-colors"
-                            >
-                              <img
-                                src={normalizeImageUrl(url)}
-                                alt={`${project.title} - ${floorGroup.categoryName} - ${idx + 1}`}
-                                className="w-full h-64 object-cover"
-                                loading="lazy"
-                              />
-                            </a>
-                          ))}
-                        </div>
-                      ))}
+                      <div className="space-y-8">
+                        {floor.rooms.map((room) => (
+                          <div key={room._id}>
+                            <h4 className="font-display text-base font-medium text-muted-foreground mb-3 pl-3 border-l-2 border-accent/40">
+                              {room.categoryName}
+                            </h4>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                              {room.imageUrls.map((url, idx) => (
+                                <a
+                                  key={`${url}-${idx}`}
+                                  href={normalizeImageUrl(url)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="block rounded-xl overflow-hidden border border-border hover:border-accent/60 transition-colors"
+                                >
+                                  <img
+                                    src={normalizeImageUrl(url)}
+                                    alt={`${project.title} - ${room.categoryName} - ${idx + 1}`}
+                                    className="w-full h-64 object-cover"
+                                    loading="lazy"
+                                  />
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   ))}
                 </div>

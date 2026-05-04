@@ -123,14 +123,15 @@ export default function AdminMenuItems() {
           <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
         ) : (
           <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-            <table className="w-full">
+            <div className="overflow-x-auto">
+            <table className="w-full min-w-[480px]">
               <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Món ăn</th>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase hidden md:table-cell">Danh mục</th>
-                  <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Giá</th>
-                  <th className="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase hidden sm:table-cell">Trạng thái</th>
-                  <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Thao tác</th>
+                  <th className="text-left px-3 md:px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Món ăn</th>
+                  <th className="text-left px-3 md:px-6 py-3 text-xs font-semibold text-gray-500 uppercase hidden md:table-cell">Danh mục</th>
+                  <th className="text-right px-3 md:px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Giá</th>
+                  <th className="text-center px-3 md:px-6 py-3 text-xs font-semibold text-gray-500 uppercase hidden sm:table-cell">Trạng thái</th>
+                  <th className="text-right px-3 md:px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Thao tác</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
@@ -138,35 +139,35 @@ export default function AdminMenuItems() {
                   const cat = typeof item.categoryId === "object" ? (item.categoryId as Category) : null;
                   return (
                     <tr key={item._id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
+                      <td className="px-3 md:px-6 py-3 md:py-4">
+                        <div className="flex items-center gap-2 md:gap-3">
                           {item.thumbnail ? (
-                            <img src={item.thumbnail} alt={item.name} className="w-12 h-12 rounded-xl object-cover flex-shrink-0" />
+                            <img src={item.thumbnail} alt={item.name} className="w-10 h-10 md:w-12 md:h-12 rounded-xl object-cover flex-shrink-0" />
                           ) : (
-                            <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-xl">🍽️</div>
+                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gray-100 flex items-center justify-center text-lg md:text-xl">🍽️</div>
                           )}
                           <div>
-                            <div className="flex items-center gap-1.5">
-                              <span className="font-medium text-gray-900">{item.name}</span>
-                              {item.isFeatured && <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />}
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className="font-medium text-gray-900 text-sm md:text-base">{item.name}</span>
+                              {item.isFeatured && <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />}
                               {item.newArrival && <span className="badge-new">MỚI</span>}
                             </div>
-                            {item.description && <p className="text-xs text-gray-400 line-clamp-1 mt-0.5">{item.description}</p>}
+                            {item.description && <p className="text-xs text-gray-400 line-clamp-1 mt-0.5 hidden sm:block">{item.description}</p>}
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500 hidden md:table-cell">{cat?.name ?? "—"}</td>
-                      <td className="px-6 py-4 text-right">
+                      <td className="px-3 md:px-6 py-3 md:py-4 text-sm text-gray-500 hidden md:table-cell">{cat?.name ?? "—"}</td>
+                      <td className="px-3 md:px-6 py-3 md:py-4 text-right">
                         <div className="font-semibold text-primary text-sm">{formatPrice(item.price)}</div>
                         {item.salePrice && <div className="text-xs text-gray-400 line-through">{formatPrice(item.salePrice)}</div>}
                       </td>
-                      <td className="px-6 py-4 text-center hidden sm:table-cell">
+                      <td className="px-3 md:px-6 py-3 md:py-4 text-center hidden sm:table-cell">
                         <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${item.isAvailable ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
                           {item.isAvailable ? "Có sẵn" : "Hết"}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex items-center justify-end gap-2">
+                      <td className="px-3 md:px-6 py-3 md:py-4 text-right">
+                        <div className="flex items-center justify-end gap-1">
                           <Button variant="ghost" size="icon" onClick={() => openEdit(item)} className="h-8 w-8 text-gray-400 hover:text-primary">
                             <Pencil className="w-4 h-4" />
                           </Button>
@@ -183,6 +184,7 @@ export default function AdminMenuItems() {
                 )}
               </tbody>
             </table>
+            </div>
           </div>
         )}
         <AdminPagination page={page} total={data?.total ?? 0} pageSize={PAGE_SIZE} onChange={setPage} />

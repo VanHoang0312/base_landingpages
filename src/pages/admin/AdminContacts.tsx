@@ -71,41 +71,41 @@ export default function AdminContacts() {
             {data?.rows.map((contact) => {
               const st = statusConfig[contact.status];
               return (
-                <div key={contact._id} className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2 flex-wrap">
+                <div key={contact._id} className="bg-white rounded-xl p-4 md:p-5 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-2 flex-wrap">
                         <span className="font-semibold text-gray-900">{contact.name}</span>
                         <Badge className={`${st.color} font-medium`}>{st.label}</Badge>
                         <span className="text-xs text-gray-400">
                           {format(new Date(contact.createdAt), "dd/MM/yyyy HH:mm", { locale: vi })}
                         </span>
                       </div>
-                      <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                      <div className="flex flex-wrap gap-3 text-sm text-gray-600">
                         <span className="flex items-center gap-1.5">
                           <Phone className="w-3.5 h-3.5 text-primary" />
                           <a href={`tel:${contact.phone}`} className="hover:text-primary">{contact.phone}</a>
                         </span>
                         {contact.email && (
-                          <span className="flex items-center gap-1.5">
-                            <Mail className="w-3.5 h-3.5 text-primary" />
-                            <a href={`mailto:${contact.email}`} className="hover:text-primary">{contact.email}</a>
+                          <span className="flex items-center gap-1.5 min-w-0">
+                            <Mail className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                            <a href={`mailto:${contact.email}`} className="hover:text-primary truncate">{contact.email}</a>
                           </span>
                         )}
                       </div>
                       {contact.message && (
-                        <div className="mt-3 flex items-start gap-2 text-sm text-gray-500">
+                        <div className="mt-2 flex items-start gap-2 text-sm text-gray-500">
                           <MessageSquare className="w-4 h-4 mt-0.5 text-gray-300 flex-shrink-0" />
                           <p>{contact.message}</p>
                         </div>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 flex-shrink-0">
+                    <div className="flex items-center gap-2 flex-shrink-0 self-end sm:self-start">
                       <Select
                         value={contact.status}
                         onValueChange={(v) => updateMutation.mutate({ id: contact._id, status: v as Contact["status"] })}
                       >
-                        <SelectTrigger className="w-36 h-8 text-xs">
+                        <SelectTrigger className="w-32 h-8 text-xs">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>

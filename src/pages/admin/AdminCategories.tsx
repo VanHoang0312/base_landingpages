@@ -74,34 +74,35 @@ export default function AdminCategories() {
           <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
         ) : (
           <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-            <table className="w-full">
+            <div className="overflow-x-auto">
+            <table className="w-full min-w-[400px]">
               <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Danh mục</th>
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider hidden md:table-cell">Mô tả</th>
-                  <th className="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Thứ tự</th>
-                  <th className="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Kích hoạt</th>
-                  <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Thao tác</th>
+                  <th className="text-left px-3 md:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Danh mục</th>
+                  <th className="text-left px-3 md:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider hidden md:table-cell">Mô tả</th>
+                  <th className="text-center px-2 md:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider hidden sm:table-cell">Thứ tự</th>
+                  <th className="text-center px-2 md:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Trạng thái</th>
+                  <th className="text-right px-3 md:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Thao tác</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {pagedRows.map((cat) => (
                   <tr key={cat._id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        {cat.icon && <span className="text-2xl">{cat.icon}</span>}
-                        <span className="font-medium text-gray-900">{cat.name}</span>
+                    <td className="px-3 md:px-6 py-3 md:py-4">
+                      <div className="flex items-center gap-2 md:gap-3">
+                        {cat.icon && <span className="text-xl md:text-2xl">{cat.icon}</span>}
+                        <span className="font-medium text-gray-900 text-sm md:text-base">{cat.name}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-500 text-sm hidden md:table-cell">{cat.description || "—"}</td>
-                    <td className="px-6 py-4 text-center text-gray-500 text-sm">{cat.sortOrder}</td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-3 md:px-6 py-3 md:py-4 text-gray-500 text-sm hidden md:table-cell">{cat.description || "—"}</td>
+                    <td className="px-2 md:px-6 py-3 md:py-4 text-center text-gray-500 text-sm hidden sm:table-cell">{cat.sortOrder}</td>
+                    <td className="px-2 md:px-6 py-3 md:py-4 text-center">
                       <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${cat.isActive ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
                         {cat.isActive ? "Hiện" : "Ẩn"}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                    <td className="px-3 md:px-6 py-3 md:py-4 text-right">
+                      <div className="flex items-center justify-end gap-1">
                         <Button variant="ghost" size="icon" onClick={() => openEdit(cat)} className="h-8 w-8 text-gray-400 hover:text-primary">
                           <Pencil className="w-4 h-4" />
                         </Button>
@@ -117,6 +118,7 @@ export default function AdminCategories() {
                 )}
               </tbody>
             </table>
+            </div>
           </div>
         )}
         <AdminPagination page={page} total={allRows.length} pageSize={PAGE_SIZE} onChange={setPage} />

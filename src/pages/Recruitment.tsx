@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
@@ -80,7 +80,7 @@ const Recruitment = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto"
           >
-            Gia nhập Đại Hà Thanh để cùng chúng tôi kiến tạo những không gian sống đẳng cấp và phát triển sự nghiệp của bạn.
+            Gia nhập Hoàng Ẩm Thực để cùng chúng tôi kiến tạo những không gian sống đẳng cấp và phát triển sự nghiệp của bạn.
           </motion.p>
         </div>
       </section>

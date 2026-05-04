@@ -1,180 +1,103 @@
-import { motion } from "framer-motion";
-import { useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
+﻿import { motion } from "framer-motion";
+import { Star, Quote } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Anh Nguyễn Văn Minh",
-    role: "Chủ nhà tại TP. Thanh Hóa",
-    content:
-      "Đại Hà Thanh đã giúp chúng tôi biến ước mơ về ngôi nhà lý tưởng thành hiện thực. Từ khâu tư vấn, thiết kế đến thi công đều rất chuyên nghiệp. Đặc biệt ấn tượng với sự tận tâm của đội ngũ.",
+    name: "Nguyễn Thị Lan",
+    role: "Khách hàng thân thiết",
+    avatar: "👩",
     rating: 5,
-    project: "Villa 3 tầng",
+    content: "Món phở bò ở đây thực sự tuyệt vời! Nước dùng đậm đà, thịt bò mềm, nguyên liệu tươi. Đã ghé rất nhiều lần và lần nào cũng hài lòng.",
   },
   {
-    name: "Chị Trần Thị Hương",
-    role: "Giám đốc doanh nghiệp",
-    content:
-      "Thiết kế nội thất văn phòng của chúng tôi vượt xa mong đợi. Không gian làm việc hiện đại, tối ưu công năng nhưng vẫn đảm bảo thẩm mỹ. Rất hài lòng với sự hợp tác này.",
+    name: "Trần Văn Minh",
+    role: "Blogger ẩm thực",
+    avatar: "👨",
     rating: 5,
-    project: "Văn phòng 200m²",
+    content: "Hoàng Ẩm Thực xứng đáng là một trong những nhà hàng ngon nhất mình từng thử. Không gian ấm cúng, phục vụ chu đáo, giá cả hợp lý.",
   },
   {
-    name: "Anh Lê Đức Thắng",
-    role: "Doanh nhân",
-    content:
-      "Đã hợp tác với Đại Hà Thanh cho 2 dự án và đều rất hài lòng. Đội ngũ làm việc chuyên nghiệp, đúng tiến độ và đặc biệt là giá cả rất cạnh tranh so với chất lượng nhận được.",
+    name: "Lê Thị Hương",
+    role: "Khách hàng mới",
+    avatar: "👱‍♀️",
     rating: 5,
-    project: "Duplex sân vườn",
+    content: "Lần đầu đến nhưng chắc chắn sẽ quay lại! Món bún bò Huế cay vừa phải, thơm ngon. Nhân viên nhiệt tình và thân thiện.",
   },
   {
-    name: "Chị Phạm Thanh Hà",
-    role: "Chủ homestay",
-    content:
-      "Nhờ Đại Hà Thanh thiết kế và thi công, homestay của tôi luôn được khách hàng đánh giá cao về không gian và thẩm mỹ. Một khoản đầu tư xứng đáng!",
+    name: "Phạm Đức Hùng",
+    role: "Thực khách",
+    avatar: "🧔",
     rating: 5,
-    project: "Homestay 5 phòng",
+    content: "Gia đình mình thường xuyên đặt tiệc ở đây cho các dịp đặc biệt. Nhà hàng phục vụ chuyên nghiệp, thực đơn phong phú, rất phù hợp cho tiệc đông người.",
   },
 ];
 
 export const TestimonialsSection = () => {
-  const ref = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setCurrentIndex(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length
-    );
-  };
-
   return (
-    <section id="testimonials" className="py-12 md:py-16 bg-background overflow-hidden">
-      <div className="container-custom" ref={ref}>
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="inline-block text-accent font-semibold text-sm uppercase tracking-wider mb-4">
-              Đánh Giá Từ Khách Hàng
-            </span>
-            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-              Khách Hàng Nói Gì
-              <span className="block text-accent">Về Chúng Tôi?</span>
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Sự hài lòng của khách hàng là thước đo thành công của chúng tôi.
-              Mỗi dự án hoàn thành là một niềm tự hào và động lực để tiếp tục
-              phát triển.
-            </p>
+    <section className="section-padding bg-warm-white">
+      <div className="container-custom">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <span className="inline-block text-sm font-semibold text-primary bg-primary/10 px-4 py-1.5 rounded-full mb-4">
+            💬 Đánh giá khách hàng
+          </span>
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Khách Hàng Nói Gì?
+          </h2>
+          <p className="text-muted-foreground max-w-xl mx-auto">
+            Hàng nghìn khách hàng tin tưởng và yêu mến ẩm thực Hoàng Ẩm Thực
+          </p>
+        </motion.div>
 
-            {/* Navigation Buttons */}
-            <div className="flex items-center gap-4">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={prevTestimonial}
-                className="w-12 h-12 rounded-full border-2 border-border hover:border-accent hover:bg-accent hover:text-charcoal"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={nextTestimonial}
-                className="w-12 h-12 rounded-full border-2 border-border hover:border-accent hover:bg-accent hover:text-charcoal"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </Button>
-              <span className="text-sm text-muted-foreground ml-4">
-                {currentIndex + 1} / {testimonials.length}
-              </span>
-            </div>
-          </motion.div>
-
-          {/* Right - Testimonial Card */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
-          >
-            {/* Decorative Elements */}
-            <div className="absolute -top-8 -right-8 w-32 h-32 bg-accent/10 rounded-full blur-2xl" />
-            <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-accent/5 rounded-full blur-3xl" />
-
-            {/* Card */}
-            <div className="relative bg-secondary rounded-3xl p-8 md:p-10 border border-border">
-              {/* Quote Icon */}
-              <div className="absolute -top-6 left-8 w-12 h-12 bg-accent rounded-xl flex items-center justify-center shadow-lg">
-                <Quote className="w-6 h-6 text-charcoal" />
-              </div>
-
-              {/* Stars */}
-              <div className="flex gap-1 mb-6 mt-4">
-                {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-5 h-5 text-accent fill-accent"
-                  />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {testimonials.map((item, i) => (
+            <motion.div
+              key={item.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow relative"
+            >
+              <Quote className="absolute top-6 right-6 w-8 h-8 text-primary/10" />
+              <div className="flex items-center gap-1 mb-4">
+                {Array.from({ length: item.rating }).map((_, j) => (
+                  <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400" />
                 ))}
               </div>
-
-              {/* Content */}
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                <p className="text-lg md:text-xl text-foreground leading-relaxed mb-8">
-                  "{testimonials[currentIndex].content}"
-                </p>
-
-                <div className="flex items-center justify-between pt-6 border-t border-border">
-                  <div>
-                    <p className="font-semibold text-foreground">
-                      {testimonials[currentIndex].name}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {testimonials[currentIndex].role}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs text-muted-foreground">Dự án</p>
-                    <p className="text-sm font-medium text-accent">
-                      {testimonials[currentIndex].project}
-                    </p>
-                  </div>
+              <p className="text-gray-600 leading-relaxed mb-5 italic">"{item.content}"</p>
+              <div className="flex items-center gap-3">
+                <span className="text-3xl">{item.avatar}</span>
+                <div>
+                  <p className="font-semibold text-gray-900">{item.name}</p>
+                  <p className="text-sm text-gray-400">{item.role}</p>
                 </div>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
-            {/* Dots Indicator */}
-            <div className="flex justify-center gap-2 mt-6">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === currentIndex
-                      ? "w-8 bg-accent"
-                      : "bg-border hover:bg-muted-foreground"
-                  }`}
-                />
+        {/* Overall rating */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-10 text-center"
+        >
+          <div className="inline-flex items-center gap-3 bg-amber-50 border border-amber-100 rounded-full px-6 py-3">
+            <div className="flex items-center gap-0.5">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
               ))}
             </div>
-          </motion.div>
-        </div>
+            <span className="font-bold text-amber-800">4.9/5</span>
+            <span className="text-amber-600 text-sm">từ 5,000+ đánh giá</span>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

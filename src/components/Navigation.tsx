@@ -1,73 +1,42 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Menu, Phone, ChevronDown } from "lucide-react";
+import { Menu, Phone, ShoppingBag, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
-import { websiteCategoryService, type WebsiteCategory } from "@/services/api";
-import { buildCategoryHref } from "@/utils/projectMapper";
+import { useQuery } from "@tanstack/react-query";
+import { categoryService } from "@/services/api";
 
-const defaultCategories = [{ name: "Mẫu nhà đẹp", href: "/mau-nha-dep" }];
+const navLinks = [
+  { label: "Trang chủ", href: "/" },
+  { label: "Thực đơn", href: "/thuc-don" },
+  { label: "Về chúng tôi", href: "/gioi-thieu" },
+  { label: "Tin tức", href: "/tin-tuc" },
+  { label: "Liên hệ", href: "/lien-he" },
+];
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
-  const [projectCategories, setProjectCategories] = useState<Array<{ name: string; href: string }>>(defaultCategories);
+  const [menuDropOpen, setMenuDropOpen] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const { data: categoriesData } = useQuery({
+    queryKey: ["categories-nav"],
+    queryFn: categoryService.getAll,
+    staleTime: 5 * 60 * 1000,
+  });
 
   useEffect(() => {
-    let isMounted = true;
-    const loadCategories = async () => {
-      try {
-        const response = await websiteCategoryService.getAllPublic({ pageSize: 0, sort: "sortOrder" });
-        const rows = (response?.rows || []) as WebsiteCategory[];
-        if (!isMounted) return;
-        if (!rows.length) {
-          setProjectCategories(defaultCategories);
-          return;
-        }
-        setProjectCategories(rows.map(item => ({ name: item.name, href: buildCategoryHref(item) })));
-      } catch (_err) {
-        if (!isMounted) return;
-        setProjectCategories(defaultCategories);
-      }
-    };
-    loadCategories();
-    return () => {
-      isMounted = false;
-    };
+    const fn = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", fn);
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  const isActive = (href: string) => location.pathname === href;
-  const isProjectsActive = location.pathname.startsWith("/mau-nha-dep");
+  const isActive = (href: string) =>
+    href === "/" ? location.pathname === "/" : location.pathname.startsWith(href);
 
   return (
     <motion.header
@@ -75,146 +44,83 @@ export const Navigation = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        isScrolled ? "glass-effect shadow-md" : "bg-background/80 backdrop-blur-sm"
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500 glass-effect",
+        isScrolled ? "shadow-sm" : "shadow-none"
       )}
     >
       <div className="container-custom">
-        <nav className="flex items-center justify-between h-20">
+        <nav className="flex items-center justify-between h-18 py-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
-            <img src="/logo.png" alt="Logo" className="w-12 h-12 object-contain rounded-lg" />
-            <div className="hidden sm:block">
-              <p className="font-display text-lg font-semibold text-foreground leading-tight">
-                Đại Hà Thanh
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Kiến Trúc & Nội Thất
-              </p>
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 brand-gradient rounded-xl flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+              <ShoppingBag className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <p className="font-display text-lg font-bold text-foreground leading-tight">Hoàng Ẩm Thực</p>
+              <p className="text-xs text-muted-foreground leading-none">Ẩm thực truyền thống</p>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-2">
-            <NavigationMenu>
-              <NavigationMenuList className="gap-1">
-                {/* Trang chủ */}
-                <NavigationMenuItem>
-                  <Link to="/">
-                    <NavigationMenuLink
-                      className={cn(
-                        "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent focus:text-accent focus:outline-none",
-                        isActive("/") ? "text-accent" : "text-foreground/80"
-                      )}
-                    >
-                      Trang chủ
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-
-                {/* Mẫu nhà đẹp - HoverCard */}
-                <NavigationMenuItem>
-                  <HoverCard openDelay={0} closeDelay={100}>
-                    <HoverCardTrigger asChild>
-                      <div
-                        className={cn(
-                          "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent cursor-pointer",
-                          isProjectsActive ? "text-accent" : "text-foreground/80"
-                        )}
+          {/* Desktop Nav */}
+          <div className="hidden lg:flex items-center gap-1">
+            {navLinks.map((link) =>
+              link.label === "Thực đơn" ? (
+                <HoverCard key={link.href} openDelay={0} closeDelay={100}>
+                  <HoverCardTrigger asChild>
+                    <div className={cn(
+                      "inline-flex h-10 items-center px-4 text-sm font-medium rounded-lg cursor-pointer transition-colors",
+                      isActive(link.href) ? "text-primary bg-primary/5" : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                    )}>
+                      {link.label}
+                      <ChevronDown className="ml-1 h-3 w-3" />
+                    </div>
+                  </HoverCardTrigger>
+                  <HoverCardContent align="start" className="w-52 p-2">
+                    <Link to="/thuc-don" className="block px-3 py-2 text-sm rounded-lg hover:bg-primary/5 hover:text-primary font-medium">
+                      Tất cả món ăn
+                    </Link>
+                    <div className="border-t border-border my-1" />
+                    {categoriesData?.rows.map((cat) => (
+                      <Link
+                        key={cat._id}
+                        to={`/thuc-don?cat=${cat.slug}`}
+                        className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-primary/5 hover:text-primary"
                       >
-                        Mẫu nhà đẹp
-                        <ChevronDown className="ml-1 h-3 w-3 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                      </div>
-                    </HoverCardTrigger>
-                    <HoverCardContent align="start" className="w-[220px] p-2 bg-popover border-border shadow-md">
-                      <div className="flex flex-col gap-1">
-                        {projectCategories.map((category) => (
-                          <Link
-                            key={category.href}
-                            to={category.href}
-                            className={cn(
-                              "block select-none rounded-md p-3 text-sm leading-none no-underline outline-none transition-colors hover:bg-accent/10 hover:text-accent",
-                              isActive(category.href)
-                                ? "bg-accent/5 text-accent font-medium"
-                                : "text-foreground"
-                            )}
-                          >
-                            {category.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </HoverCardContent>
-                  </HoverCard>
-                </NavigationMenuItem>
-                {/* Dịch vụ */}
-                <NavigationMenuItem>
-                  <a href="/dich-vu">
-                    <NavigationMenuLink
-                      className={cn(
-                        "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent focus:text-accent focus:outline-none",
-                        isActive("/dich-vu") ? "text-accent" : "text-foreground/80"
-                      )}
-                    >
-                      Dịch vụ
-                    </NavigationMenuLink>
-                  </a>
-                </NavigationMenuItem>
-                {/* Báo giá */}
-                <NavigationMenuItem>
-                  <a href="/#bao-gia">
-                    <NavigationMenuLink
-                      className={cn(
-                        "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent focus:text-accent focus:outline-none",
-                        isActive("/bao-gia") ? "text-accent" : "text-foreground/80"
-                      )}
-                    >
-                      Báo giá
-                    </NavigationMenuLink>
-                  </a>
-                </NavigationMenuItem>
-
-                {/* Tuyển dụng */}
-                <NavigationMenuItem>
-                  <Link to="/tuyen-dung">
-                    <NavigationMenuLink
-                      className={cn(
-                        "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent focus:text-accent focus:outline-none",
-                        isActive("/tuyen-dung") ? "text-accent" : "text-foreground/80"
-                      )}
-                    >
-                      Tuyển dụng
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-
-                {/* Giới thiệu */}
-                <NavigationMenuItem>
-                  <Link to="/gioi-thieu">
-                    <NavigationMenuLink
-                      className={cn(
-                        "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent focus:text-accent focus:outline-none",
-                        isActive("/gioi-thieu") ? "text-accent" : "text-foreground/80"
-                      )}
-                    >
-                      Giới thiệu
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+                        {cat.icon && <span>{cat.icon}</span>}
+                        {cat.name}
+                      </Link>
+                    ))}
+                  </HoverCardContent>
+                </HoverCard>
+              ) : (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className={cn(
+                    "inline-flex h-10 items-center px-4 text-sm font-medium rounded-lg transition-colors",
+                    isActive(link.href) ? "text-primary bg-primary/5" : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden lg:flex items-center gap-4">
-            <a href="/#bao-gia">
-              <Button variant="navCta" size="default">
-                <Phone className="w-4 h-4" />
-                Liên Hệ
-              </Button>
+          {/* CTA */}
+          <div className="hidden lg:flex items-center gap-3">
+            <a href="tel:0909123456" className="flex items-center gap-2 text-sm font-medium text-foreground/70 hover:text-primary transition-colors">
+              <Phone className="w-4 h-4" />
+              <span>0909 123 456</span>
             </a>
+            <Link to="/lien-he">
+              <Button className="brand-gradient text-white shadow-md hover:opacity-90 transition-opacity">
+                Đặt bàn ngay
+              </Button>
+            </Link>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Hamburger */}
           <div className="lg:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
@@ -223,126 +129,62 @@ export const Navigation = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-80 bg-background">
-                <SheetTitle className="sr-only">Menu điều hướng</SheetTitle>
-                <div className="flex flex-col gap-6 mt-8">
-                  <div className="flex items-center gap-3">
-                    <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain rounded-lg" />
+                <SheetTitle className="sr-only">Menu</SheetTitle>
+                <div className="flex flex-col gap-6 mt-6">
+                  <Link to="/" className="flex items-center gap-3" onClick={() => setIsOpen(false)}>
+                    <div className="w-10 h-10 brand-gradient rounded-xl flex items-center justify-center">
+                      <ShoppingBag className="w-5 h-5 text-white" />
+                    </div>
                     <div>
-                      <p className="font-display font-semibold text-foreground">
-                        Đại Hà Thanh
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        Kiến Trúc & Nội Thất
-                      </p>
+                      <p className="font-display font-bold">Hoàng Ẩm Thực</p>
+                      <p className="text-xs text-muted-foreground">Ẩm thực truyền thống</p>
                     </div>
-                  </div>
-
-                  <div className="flex flex-col gap-2">
-                    {/* Trang chủ */}
-                    <Link
-                      to="/"
-                      onClick={() => setIsOpen(false)}
-                      className={cn(
-                        "text-lg font-medium py-3 border-b border-border transition-colors",
-                        isActive("/") ? "text-accent" : "text-foreground hover:text-accent"
-                      )}
-                    >
-                      Trang chủ
-                    </Link>
-
-                    {/* Dịch vụ */}
-                    <a
-                      href="/#dich-vu"
-                      onClick={() => setIsOpen(false)}
-                      className="text-lg font-medium py-3 border-b border-border transition-colors text-foreground hover:text-accent"
-                    >
-                      Dịch vụ
-                    </a>
-
-                    {/* Mẫu nhà đẹp - Dropdown */}
-                    <div className="border-b border-border">
-                      <button
-                        onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
-                        className={cn(
-                          "flex items-center justify-between w-full text-lg font-medium py-3 transition-colors",
-                          isProjectsActive ? "text-accent" : "text-foreground hover:text-accent"
-                        )}
-                      >
-                        Mẫu nhà đẹp
-                        <ChevronDown
-                          className={cn(
-                            "w-5 h-5 transition-transform",
-                            mobileDropdownOpen && "rotate-180"
+                  </Link>
+                  <div className="flex flex-col">
+                    {navLinks.map((link) =>
+                      link.label === "Thực đơn" ? (
+                        <div key={link.href} className="border-b border-border">
+                          <button
+                            onClick={() => setMenuDropOpen(!menuDropOpen)}
+                            className="flex items-center justify-between w-full py-3 text-lg font-medium hover:text-primary transition-colors"
+                          >
+                            {link.label}
+                            <ChevronDown className={cn("w-5 h-5 transition-transform", menuDropOpen && "rotate-180")} />
+                          </button>
+                          {menuDropOpen && (
+                            <div className="pl-4 pb-3 space-y-1">
+                              <Link to="/thuc-don" onClick={() => setIsOpen(false)} className="block py-1.5 text-sm text-muted-foreground hover:text-primary">
+                                Tất cả món ăn
+                              </Link>
+                              {categoriesData?.rows.map((cat) => (
+                                <Link key={cat._id} to={`/thuc-don?cat=${cat.slug}`} onClick={() => setIsOpen(false)} className="flex items-center gap-2 py-1.5 text-sm text-muted-foreground hover:text-primary">
+                                  {cat.icon} {cat.name}
+                                </Link>
+                              ))}
+                            </div>
                           )}
-                        />
-                      </button>
-                      {mobileDropdownOpen && (
-                        <div className="pl-4 pb-3 flex flex-col gap-2">
-                          {projectCategories.map((category) => (
-                            <Link
-                              key={category.href}
-                              to={category.href}
-                              onClick={() => {
-                                setIsOpen(false);
-                                setMobileDropdownOpen(false);
-                              }}
-                              className={cn(
-                                "py-2 text-base transition-colors",
-                                isActive(category.href)
-                                  ? "text-accent"
-                                  : "text-muted-foreground hover:text-accent"
-                              )}
-                            >
-                              {category.name}
-                            </Link>
-                          ))}
                         </div>
-                      )}
-                    </div>
-
-                    {/* Báo giá */}
-                    <a
-                      href="/#bao-gia"
-                      onClick={() => setIsOpen(false)}
-                      className={cn(
-                        "text-lg font-medium py-3 border-b border-border transition-colors",
-                        isActive("/bao-gia") ? "text-accent" : "text-foreground hover:text-accent"
-                      )}
-                    >
-                      Báo giá
-                    </a>
-
-                    {/* Tuyển dụng */}
-                    <Link
-                      to="/tuyen-dung"
-                      onClick={() => setIsOpen(false)}
-                      className={cn(
-                        "text-lg font-medium py-3 border-b border-border transition-colors",
-                        isActive("/tuyen-dung") ? "text-accent" : "text-foreground hover:text-accent"
-                      )}
-                    >
-                      Tuyển dụng
-                    </Link>
-
-                    {/* Giới thiệu */}
-                    <Link
-                      to="/gioi-thieu"
-                      onClick={() => setIsOpen(false)}
-                      className={cn(
-                        "text-lg font-medium py-3 border-b border-border transition-colors",
-                        isActive("/gioi-thieu") ? "text-accent" : "text-foreground hover:text-accent"
-                      )}
-                    >
-                      Giới thiệu
-                    </Link>
+                      ) : (
+                        <Link
+                          key={link.href}
+                          to={link.href}
+                          onClick={() => setIsOpen(false)}
+                          className={cn(
+                            "py-3 border-b border-border text-lg font-medium transition-colors",
+                            isActive(link.href) ? "text-primary" : "hover:text-primary"
+                          )}
+                        >
+                          {link.label}
+                        </Link>
+                      )
+                    )}
                   </div>
-
-                  <a href="/#bao-gia" onClick={() => setIsOpen(false)}>
-                    <Button variant="gold" size="lg" className="w-full mt-4">
-                      <Phone className="w-4 h-4" />
-                      Liên Hệ Ngay
+                  <Link to="/lien-he" onClick={() => setIsOpen(false)}>
+                    <Button className="w-full brand-gradient text-white">
+                      <Phone className="w-4 h-4 mr-2" />
+                      Đặt bàn ngay
                     </Button>
-                  </a>
+                  </Link>
                 </div>
               </SheetContent>
             </Sheet>

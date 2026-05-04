@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { FileText, MessageCircle, Phone } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -76,7 +76,7 @@ const Quotation = () => {
                 Bảng báo giá
               </h1>
               <p className="text-lg text-white/70 max-w-2xl">
-                Tham khảo bảng giá dịch vụ thiết kế và thi công xây dựng của Đại Hà Thanh
+                Tham khảo bảng giá dịch vụ thiết kế và thi công xây dựng của Hoàng Ẩm Thực
               </p>
             </motion.div>
           </div>

@@ -1,219 +1,204 @@
-import * as React from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, Play } from "lucide-react";
+﻿import { motion } from "framer-motion";
+import { ArrowRight, Star, Clock, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/banner.png";
-import Autoplay from "embla-carousel-autoplay";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-
-// Import images for carousel
-import slide1 from "@/assets/project-apartment.png";
-import slide2 from "@/assets/project-villa.png";
-import slide3 from "@/assets/project-penthouse.png";
-import slide4 from "@/assets/project-office.png";
-import slide5 from "@/assets/project-kitchen.png";
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { settingService } from "@/services/api";
 
 export const HeroSection = () => {
+  const { data: settings } = useQuery({
+    queryKey: ["settings"],
+    queryFn: settingService.getAll,
+    staleTime: 10 * 60 * 1000,
+  });
 
-  const slides = [
-    { src: slide1, alt: "Thiết kế nội thất cao cấp" },
-    { src: slide2, alt: "Biệt thự sang trọng" },
-    { src: slide3, alt: "Căn hộ hiện đại" },
-    { src: slide4, alt: "Văn phòng sáng tạo" },
-    { src: slide5, alt: "Kiến trúc độc bản" },
-  ];
+  const heroTitle = settings?.heroTitle || "Ẩm Thực Hoàng Ẩm Thực";
+  const heroSubtitle = settings?.heroSubtitle || "Trải nghiệm hương vị ẩm thực đích thực với những nguyên liệu tươi ngon nhất, được chế biến bởi đầu bếp nhiều kinh nghiệm";
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-primary">
-      {/* Background Image with Parallax-like Zoom */}
-      <div className="absolute inset-0">
-        <motion.img
-          initial={{ scale: 1.1, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.5 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          src={heroImage}
-          alt="Luxury interior design"
-          className="w-full h-full object-cover"
-        />
-        {/* Dynamic Multi-layered Gradients */}
-        {/* <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/95 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-primary/30" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.4)_100%)]" /> */}
+    <section className="relative w-full min-h-screen flex items-center overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-red-950/80 to-gray-900" />
+
+      {/* Background food image overlay */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&q=80')] bg-cover bg-center" />
       </div>
 
-      {/* Decorative Elements */}
-      <div className="absolute top-20 right-20 w-72 h-72 bg-accent/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 left-20 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+      {/* Decorative blobs */}
+      <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-accent/15 rounded-full blur-3xl" />
 
       <div className="container-custom relative z-10 pt-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+        <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[85vh]">
           {/* Left Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-primary-foreground"
-          >
+          <div>
+            {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 border border-accent/30 mb-6"
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-primary/30 mb-6"
             >
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+              <Star className="w-4 h-4 text-accent fill-accent" />
               <span className="text-sm font-medium text-accent">
-                Công ty TNHH Đại Hà Thanh
+                Nhà hàng 5 sao · 15 năm kinh nghiệm
               </span>
             </motion.div>
 
+            {/* Heading */}
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6"
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white mb-6"
             >
-              Kiến Tạo
-              <span className="block text-accent">Không Gian,</span>
-              Nâng Tầm
-              <span className="block">Cuộc Sống</span>
+              {heroTitle.includes(" ") ? (
+                <>
+                  {heroTitle.split(" ").slice(0, 2).join(" ")}
+                  <span className="block brand-text">{heroTitle.split(" ").slice(2).join(" ")}</span>
+                </>
+              ) : (
+                <span className="brand-text">{heroTitle}</span>
+              )}
             </motion.h1>
 
+            {/* Description */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              className="text-lg md:text-xl text-primary-foreground/70 max-w-xl mb-8 leading-relaxed"
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-lg text-white/70 max-w-lg mb-10 leading-relaxed"
             >
-              Chúng tôi mang đến giải pháp thiết kế kiến trúc và nội thất cao
-              cấp, kết hợp sự tinh tế trong từng chi tiết với công nghệ xây dựng
-              hiện đại.
+              {heroSubtitle}
             </motion.p>
 
+            {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-              className="flex flex-col sm:flex-row gap-4"
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex flex-col sm:flex-row gap-4 mb-12"
             >
-              <a href="#du-an">
-                <Button variant="heroPrimary" size="xl">
-                  Xem Dự Án
+              <Link to="/thuc-don">
+                <Button className="brand-gradient text-white px-8 py-6 text-base shadow-lg hover:opacity-90 transition-all">
+                  Xem thực đơn
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
-              </a>
-              <a href="#bao-gia">
-                <Button variant="heroSecondary" size="xl">
-                  Nhận Báo Giá
+              </Link>
+              <Link to="/lien-he">
+                <Button variant="outline" className="bg-transparent border-white/60 text-white hover:bg-white/10 px-8 py-6 text-base">
+                  Đặt bàn ngay
                 </Button>
-              </a>
+              </Link>
             </motion.div>
 
-            {/* Trust indicators */}
+            {/* Info badges */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.1 }}
-              className="flex items-center gap-8 mt-12 pt-8 border-t border-primary-foreground/20"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="flex flex-wrap gap-4"
             >
-              <div>
-                <p className="text-3xl font-bold text-accent">10+</p>
-                <p className="text-sm text-primary-foreground/60">
-                  Năm Kinh Nghiệm
-                </p>
+              <div className="flex items-center gap-2 text-white/60 text-sm">
+                <Clock className="w-4 h-4 text-accent" />
+                <span>{settings?.openHours || "07:00 - 22:00 hàng ngày"}</span>
               </div>
-              <div className="w-px h-12 bg-primary-foreground/20" />
-              <div>
-                <p className="text-3xl font-bold text-accent">500+</p>
-                <p className="text-sm text-primary-foreground/60">
-                  Dự Án Hoàn Thành
-                </p>
-              </div>
-              <div className="w-px h-12 bg-primary-foreground/20 hidden sm:block" />
-              <div className="hidden sm:block">
-                <p className="text-3xl font-bold text-accent">100%</p>
-                <p className="text-sm text-primary-foreground/60">
-                  Hài Lòng
-                </p>
+              <div className="flex items-center gap-2 text-white/60 text-sm">
+                <MapPin className="w-4 h-4 text-accent" />
+                <span>{settings?.address || "TP. Hồ Chí Minh"}</span>
               </div>
             </motion.div>
-          </motion.div>
 
-          {/* Right Video/Image Grid */}
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+              className="flex items-center gap-8 mt-10 pt-8 border-t border-white/10"
+            >
+              {[
+                { value: "15+", label: "Năm kinh nghiệm" },
+                { value: "200+", label: "Món đặc sắc" },
+                { value: "5000+", label: "Khách hài lòng" },
+              ].map((stat) => (
+                <div key={stat.label}>
+                  <p className="text-2xl font-bold font-display text-white">{stat.value}</p>
+                  <p className="text-xs text-white/50 mt-0.5">{stat.label}</p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Right Visual */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.3 }}
             className="hidden lg:block relative"
           >
+            {/* Main food image */}
             <div className="relative">
-              {/* Carousel Container */}
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-black aspect-video group">
-                <Carousel
-                  className="w-full h-full"
-                  plugins={[
-                    Autoplay({
-                      delay: 3000,
-                      stopOnInteraction: false,
-                    })
-                  ]}
-                  opts={{
-                    loop: true,
-                  }}
-                >
-                  <CarouselContent>
-                    {slides.map((slide, index) => (
-                      <CarouselItem key={index} className="relative aspect-video">
-                        <img
-                          src={slide.src}
-                          alt={slide.alt}
-                          className="w-full h-full object-cover"
-                        />
-
-
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <div className="absolute right-12 bottom-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <CarouselPrevious className="static translate-y-0 h-10 w-10 bg-white/10 backdrop-blur-md border-white/20 hover:bg-accent hover:text-primary transition-all" />
-                    <CarouselNext className="static translate-y-0 h-10 w-10 bg-white/10 backdrop-blur-md border-white/20 hover:bg-accent hover:text-primary transition-all" />
-                  </div>
-                </Carousel>
+              <div className="aspect-square max-w-lg ml-auto rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl">
+                <img
+                  src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=800&q=85"
+                  alt="Món ăn đặc sắc"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
               </div>
 
-              {/* Floating Card - Optional, maybe remove or keep as a badge if needed, removing for now as video is explicit */}
+              {/* Floating card 1 */}
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -left-8 top-1/4 bg-white rounded-2xl p-4 shadow-xl"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="text-3xl">⭐</div>
+                  <div>
+                    <p className="font-bold text-gray-900 text-sm">Đánh giá 4.9/5</p>
+                    <p className="text-xs text-gray-400">5,000+ đánh giá</p>
+                  </div>
+                </div>
+              </motion.div>
 
-              {/* Gold Accent Border */}
-              <div className="absolute -top-4 -right-4 w-full h-full border-2 border-accent/30 rounded-2xl -z-10" />
+              {/* Floating card 2 */}
+              <motion.div
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -right-4 bottom-1/4 bg-white rounded-2xl p-4 shadow-xl"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="text-3xl">🔥</div>
+                  <div>
+                    <p className="font-bold text-gray-900 text-sm">Món hot nhất</p>
+                    <p className="text-xs text-gray-400">Phở Bò Đặc Biệt</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Glow effect */}
+              <div className="absolute inset-0 -z-10 bg-gradient-brand rounded-3xl blur-3xl opacity-20 scale-110" />
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-xs text-primary-foreground/50 uppercase tracking-widest">
-            Cuộn xuống
-          </span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-6 h-10 border-2 border-primary-foreground/30 rounded-full flex justify-center pt-2"
-          >
-            <div className="w-1.5 h-1.5 bg-accent rounded-full" />
-          </motion.div>
-        </div>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+          className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2"
+        >
+          <div className="w-1.5 h-1.5 bg-accent rounded-full" />
+        </motion.div>
       </motion.div>
     </section>
   );

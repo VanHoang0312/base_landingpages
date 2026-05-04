@@ -53,16 +53,18 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        gold: {
-          DEFAULT: "hsl(var(--gold))",
-          light: "hsl(var(--gold-light))",
-          dark: "hsl(var(--gold-dark))",
+        "brand-red": {
+          DEFAULT: "hsl(var(--red))",
+          light: "hsl(var(--red-light))",
+          dark: "hsl(var(--red-dark))",
         },
-        charcoal: {
-          DEFAULT: "hsl(var(--charcoal))",
-          light: "hsl(var(--charcoal-light))",
+        "brand-orange": {
+          DEFAULT: "hsl(var(--orange))",
+          light: "hsl(var(--orange-light))",
+          dark: "hsl(var(--orange-dark))",
         },
         cream: "hsl(var(--cream))",
+        "warm-white": "hsl(var(--warm-white))",
         "warm-gray": "hsl(var(--warm-gray))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -135,8 +137,9 @@ export default {
         "counter-up": "counter-up 0.5s ease-out forwards",
       },
       backgroundImage: {
-        "gradient-gold": "linear-gradient(135deg, hsl(var(--gold)), hsl(var(--gold-dark)))",
-        "gradient-dark": "linear-gradient(180deg, hsl(var(--charcoal)), hsl(0 0% 5%))",
+        "gradient-brand": "var(--gradient-brand)",
+        "gradient-dark": "var(--gradient-dark)",
+        "gradient-warm": "var(--gradient-warm)",
         "gradient-radial": "radial-gradient(ellipse at center, var(--tw-gradient-stops))",
       },
     },

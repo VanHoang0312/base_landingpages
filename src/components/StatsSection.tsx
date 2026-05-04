@@ -1,112 +1,31 @@
-import { useEffect, useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { Award, Users, Building2, ThumbsUp } from "lucide-react";
+import { motion } from "framer-motion";
 
 const stats = [
-  {
-    icon: Award,
-    value: 10,
-    suffix: "+",
-    label: "Năm Kinh Nghiệm",
-    description: "Tích lũy chuyên môn",
-  },
-  {
-    icon: Building2,
-    value: 500,
-    suffix: "+",
-    label: "Dự Án Hoàn Thành",
-    description: "Trên toàn quốc",
-  },
-  {
-    icon: Users,
-    value: 50,
-    suffix: "+",
-    label: "Đội Ngũ Chuyên Gia",
-    description: "Tận tâm & sáng tạo",
-  },
-  {
-    icon: ThumbsUp,
-    value: 100,
-    suffix: "%",
-    label: "Khách Hàng Hài Lòng",
-    description: "Cam kết chất lượng",
-  },
+  { value: "15+", label: "Năm kinh nghiệm", icon: "🏆" },
+  { value: "200+", label: "Món đặc sắc", icon: "🍜" },
+  { value: "5,000+", label: "Khách hài lòng", icon: "😊" },
+  { value: "4.9★", label: "Đánh giá trung bình", icon: "⭐" },
 ];
 
-const Counter = ({
-  value,
-  suffix,
-  inView,
-}: {
-  value: number;
-  suffix: string;
-  inView: boolean;
-}) => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (inView) {
-      const duration = 2000;
-      const steps = 60;
-      const increment = value / steps;
-      let current = 0;
-
-      const timer = setInterval(() => {
-        current += increment;
-        if (current >= value) {
-          setCount(value);
-          clearInterval(timer);
-        } else {
-          setCount(Math.floor(current));
-        }
-      }, duration / steps);
-
-      return () => clearInterval(timer);
-    }
-  }, [inView, value]);
-
-  return (
-    <span>
-      {count}
-      {suffix}
-    </span>
-  );
-};
-
 export const StatsSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section className="relative py-20 bg-secondary overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-50">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_40%,hsl(var(--accent)/0.1)_0%,transparent_50%)]" />
-        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_60%,hsl(var(--accent)/0.05)_0%,transparent_50%)]" />
-      </div>
-
-      <div className="container-custom relative z-10" ref={ref}>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {stats.map((stat, index) => (
+    <section className="py-14 bg-foreground">
+      <div className="container-custom">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="text-center group"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="text-center"
             >
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent/10 text-accent mb-4 group-hover:bg-accent group-hover:text-charcoal transition-all duration-300">
-                <stat.icon className="w-7 h-7" />
-              </div>
-
-              <div className="font-display text-4xl md:text-5xl font-bold text-foreground mb-2">
-                <Counter value={stat.value} suffix={stat.suffix} inView={isInView} />
-              </div>
-
-              <p className="text-lg font-semibold text-foreground mb-1">
-                {stat.label}
+              <div className="text-3xl mb-3">{stat.icon}</div>
+              <p className="font-display text-3xl md:text-4xl font-bold text-white mb-1">
+                {stat.value}
               </p>
-              <p className="text-sm text-muted-foreground">{stat.description}</p>
+              <p className="text-sm text-white/50">{stat.label}</p>
             </motion.div>
           ))}
         </div>

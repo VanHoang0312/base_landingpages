@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
@@ -11,7 +11,7 @@ import type { Project } from "@/data/projects";
 
 const ProjectArchive = () => {
   const { category } = useParams<{ category: string }>();
-  const DEFAULT_SUBTITLE = "Khám phá bộ sưu tập các công trình kiến trúc và nội thất đẳng cấp của Đại Hà Thanh";
+  const DEFAULT_SUBTITLE = "Khám phá bộ sưu tập các công trình kiến trúc và nội thất đẳng cấp của Hoàng Ẩm Thực";
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [pageTitle, setPageTitle] = useState("Tất cả dự án");

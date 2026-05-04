@@ -2,27 +2,25 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   server: {
     host: "::",
     port: 8081,
-    allowedHosts: ["terp-dev.thinklabs.com.vn" ],
     proxy: {
       "/api": {
-        target: "https://terp-daihathanh.thinklabs.com.vn",
+        target: "http://localhost:3001",
         changeOrigin: true,
       },
-      "/upload": {
-        target: "https://terp-daihathanh.thinklabs.com.vn",
+      "/uploads": {
+        target: "http://localhost:3001",
         changeOrigin: true,
       },
     },
   },
-  plugins: [react()].filter(Boolean),
+  plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-}));
+});

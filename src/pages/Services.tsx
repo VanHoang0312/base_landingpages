@@ -1,4 +1,4 @@
-import { useRef } from "react";
+﻿import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -56,7 +56,7 @@ const servicesDetails = [
         icon: Home,
         shortDesc: "Giải pháp chìa khóa trao tay, an tâm về chất lượng và tiến độ.",
         fullDesc: [
-            "Dịch vụ xây nhà trọn gói của Đại Hà Thanh giúp gia chủ tiết kiệm thời gian, công sức và chi phí. Chúng tôi cam kết sử dụng vật liệu chính hãng, thi công đúng kỹ thuật và đảm bảo an toàn lao động.",
+            "Dịch vụ xây nhà trọn gói của Hoàng Ẩm Thực giúp gia chủ tiết kiệm thời gian, công sức và chi phí. Chúng tôi cam kết sử dụng vật liệu chính hãng, thi công đúng kỹ thuật và đảm bảo an toàn lao động.",
             "Quy trình làm việc minh bạch, báo cáo tiến độ định kỳ giúp khách hàng dễ dàng giám sát mà không cần có mặt thường xuyên tại công trình."
         ],
         features: [
@@ -215,7 +215,7 @@ const Services = () => {
                         Bạn Đã Sẵn Sàng Kiến Tạo<br />Không Gian Sống Mới?
                     </h2>
                     <p className="text-xl md:text-2xl mb-10 opacity-90 max-w-2xl mx-auto">
-                        Hãy để Đại Hà Thanh đồng hành cùng bạn hiện thực hóa ngôi nhà mơ ước.
+                        Hãy để Hoàng Ẩm Thực đồng hành cùng bạn hiện thực hóa ngôi nhà mơ ước.
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
                         <a href="/#bao-gia">

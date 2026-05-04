@@ -1,4 +1,4 @@
-export interface RecruitmentPost {
+﻿export interface RecruitmentPost {
   id: string;
   slug: string;
   title: string;
@@ -20,7 +20,7 @@ export const recruitmentData: RecruitmentPost[] = [
     slug: "kien-truc-su-trien-khai",
     title: "Kiến trúc sư triển khai bản vẽ kỹ thuật",
     summary: "Tìm kiếm Kiến trúc sư có kinh nghiệm triển khai bản vẽ kỹ thuật thi công, thành thạo AutoCAD, Revit.",
-    description: "Chúng tôi đang tìm kiếm một Kiến trúc sư triển khai bản vẽ kỹ thuật nhiệt huyết tham gia vào đội ngũ của Đại Hà Thanh. Bạn sẽ chịu trách nhiệm chính trong việc hiện thực hóa các ý tưởng thiết kế thành bản vẽ kỹ thuật thi công chi tiết, đảm bảo tính chính xác và khả thi của công trình.",
+    description: "Chúng tôi đang tìm kiếm một Kiến trúc sư triển khai bản vẽ kỹ thuật nhiệt huyết tham gia vào đội ngũ của Hoàng Ẩm Thực. Bạn sẽ chịu trách nhiệm chính trong việc hiện thực hóa các ý tưởng thiết kế thành bản vẽ kỹ thuật thi công chi tiết, đảm bảo tính chính xác và khả thi của công trình.",
     requirements: [
       "Tốt nghiệp Đại học chuyên ngành Kiến trúc.",
       "Có ít nhất 2 năm kinh nghiệm ở vị trí tương đương.",
@@ -47,7 +47,7 @@ export const recruitmentData: RecruitmentPost[] = [
     slug: "chuyen-vien-thiet-ke-noi-that",
     title: "Chuyên viên Thiết kế Nội thất (3D)",
     summary: "Tuyển dụng nhân viên thiết kế nội thất 3D có gu thẩm mỹ tốt, sáng tạo, thực hiện các dự án nhà phố, biệt thự.",
-    description: "Đại Hà Thanh cần tuyển Chuyên viên Thiết kế Nội thất tham gia thiết kế các không gian sống sang trọng, hiện đại. Công việc chủ yếu là lên ý tưởng, dựng 3D và phối cảnh cho các công trình nhà ở, biệt thự cao cấp.",
+    description: "Hoàng Ẩm Thực cần tuyển Chuyên viên Thiết kế Nội thất tham gia thiết kế các không gian sống sang trọng, hiện đại. Công việc chủ yếu là lên ý tưởng, dựng 3D và phối cảnh cho các công trình nhà ở, biệt thự cao cấp.",
     requirements: [
       "Tốt nghiệp Cao đẳng/Đại học chuyên ngành Thiết kế Nội thất, Kiến trúc.",
       "Sử dụng thành thạo 3Ds Max, Corona/Vray, SketchUp, Photoshop.",

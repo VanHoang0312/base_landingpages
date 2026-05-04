@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -18,7 +18,7 @@ const Introduction = () => {
         <section className="relative h-[40vh] md:h-[50vh] overflow-hidden">
           <img
             src={heroInterior}
-            alt="Đại Hà Thanh"
+            alt="Hoàng Ẩm Thực"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/40 to-transparent" />
@@ -71,7 +71,7 @@ const Introduction = () => {
               viewport={{ once: true }}
               className="max-w-5xl mx-auto"
             >
-              <img src={taiSaoImg} alt="Tại sao chọn Đại Hà Thanh" className="w-full h-auto rounded-2xl shadow-xl" />
+              <img src={taiSaoImg} alt="Tại sao chọn Hoàng Ẩm Thực" className="w-full h-auto rounded-2xl shadow-xl" />
             </motion.div>
           </section>
 

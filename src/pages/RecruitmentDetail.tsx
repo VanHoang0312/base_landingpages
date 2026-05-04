@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
@@ -154,7 +154,7 @@ const RecruitmentDetail = () => {
               <div className="bg-muted/50 p-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 border border-border">
                 <div>
                   <h4 className="font-display font-bold text-xl mb-2">Bạn đã sẵn sàng ứng tuyển?</h4>
-                  <p className="text-muted-foreground">Hãy gửi CV để trở thành một phần của Đại Hà Thanh.</p>
+                  <p className="text-muted-foreground">Hãy gửi CV để trở thành một phần của Hoàng Ẩm Thực.</p>
                 </div>
                 <Link to={`/tuyen-dung/${job.slug}/ung-tuyen`} className="w-full sm:w-auto">
                   <Button size="lg" className="w-full bg-accent hover:bg-accent/90 text-white text-lg px-8">

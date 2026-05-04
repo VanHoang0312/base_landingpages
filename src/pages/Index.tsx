@@ -1,10 +1,9 @@
 import { Navigation } from "@/components/Navigation";
 import { HeroSection } from "@/components/HeroSection";
 import { StatsSection } from "@/components/StatsSection";
-import { ServicesSection } from "@/components/ServicesSection";
-import { ProjectsSection } from "@/components/ProjectsSection";
+import { MenuCategoriesSection } from "@/components/MenuCategoriesSection";
+import { FeaturedDishesSection } from "@/components/FeaturedDishesSection";
 import { ProcessSection } from "@/components/ProcessSection";
-import { VideoSection } from "@/components/VideoSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { CTASection } from "@/components/CTASection";
 import { Footer } from "@/components/Footer";
@@ -15,10 +14,9 @@ const Index = () => {
       <Navigation />
       <HeroSection />
       <StatsSection />
-      <ServicesSection />
-      <ProjectsSection />
+      <MenuCategoriesSection />
+      <FeaturedDishesSection />
       <ProcessSection />
-      <VideoSection />
       <TestimonialsSection />
       <CTASection />
       <Footer />

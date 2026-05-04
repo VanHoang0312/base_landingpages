@@ -1,115 +1,56 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import {
-  MessageSquare,
-  Pencil,
-  Hammer,
-  KeyRound,
-  ArrowRight,
-} from "lucide-react";
+import { motion } from "framer-motion";
 
 const steps = [
-  {
-    icon: MessageSquare,
-    step: "01",
-    title: "Tư Vấn",
-    description:
-      "Lắng nghe nhu cầu, tìm hiểu mong muốn và tư vấn giải pháp phù hợp với ngân sách của bạn.",
-  },
-  {
-    icon: Pencil,
-    step: "02",
-    title: "Thiết Kế",
-    description:
-      "Xây dựng ý tưởng, phát triển bản vẽ chi tiết và hoàn thiện hồ sơ thiết kế hoàn chỉnh.",
-  },
-  {
-    icon: Hammer,
-    step: "03",
-    title: "Thi Công",
-    description:
-      "Triển khai xây dựng với đội ngũ thợ lành nghề, giám sát chặt chẽ đảm bảo tiến độ và chất lượng.",
-  },
-  {
-    icon: KeyRound,
-    step: "04",
-    title: "Bàn Giao",
-    description:
-      "Nghiệm thu công trình, bàn giao chìa khóa và hướng dẫn sử dụng, bảo hành dài hạn.",
-  },
+  { step: "01", icon: "📋", title: "Chọn món yêu thích", description: "Xem thực đơn đa dạng và chọn những món ăn phù hợp với khẩu vị của bạn" },
+  { step: "02", icon: "📞", title: "Đặt bàn hoặc gọi điện", description: "Liên hệ qua điện thoại, Zalo hoặc điền form đặt bàn trực tuyến" },
+  { step: "03", icon: "👨‍🍳", title: "Chúng tôi chế biến", description: "Đầu bếp chuyên nghiệp chuẩn bị món ăn từ nguyên liệu tươi ngon nhất" },
+  { step: "04", icon: "😋", title: "Thưởng thức", description: "Thưởng thức bữa ăn ngon cùng gia đình và bạn bè trong không gian ấm cúng" },
 ];
 
 export const ProcessSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="process" className="section-padding bg-primary text-primary-foreground overflow-hidden">
-      <div className="container-custom" ref={ref}>
-        {/* Section Header */}
+    <section className="section-padding bg-background">
+      <div className="container-custom">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-20"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-14"
         >
-          <span className="inline-block text-accent font-semibold text-sm uppercase tracking-wider mb-4">
-            Quy Trình Làm Việc
+          <span className="inline-block text-sm font-semibold text-primary bg-primary/10 px-4 py-1.5 rounded-full mb-4">
+            🚀 Quy trình
           </span>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-            Hành Trình Kiến Tạo
-            <span className="block text-accent">Ngôi Nhà Mơ Ước</span>
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Đặt Bàn Dễ Dàng
           </h2>
-          <p className="text-lg text-primary-foreground/70">
-            Quy trình chuyên nghiệp, minh bạch giúp bạn an tâm trong suốt quá
-            trình hợp tác.
+          <p className="text-muted-foreground max-w-xl mx-auto">
+            Chỉ 4 bước đơn giản để có bữa ăn ngon cùng những người thân yêu
           </p>
         </motion.div>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Connecting Line - Desktop */}
-          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-accent/20 -translate-y-1/2" />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.step}
-                initial={{ opacity: 0, y: 40 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                className="relative group"
-              >
-                {/* Card */}
-                <div className="relative bg-charcoal-light/50 backdrop-blur-sm rounded-2xl p-8 border border-primary-foreground/10 hover:border-accent/50 transition-all duration-300 h-full">
-                  {/* Step Number */}
-                  <div className="absolute -top-4 left-8 px-4 py-1 bg-accent text-charcoal text-sm font-bold rounded-full">
-                    Bước {step.step}
-                  </div>
-
-                  {/* Icon */}
-                  <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mt-4 mb-6 group-hover:bg-accent transition-colors duration-300">
-                    <step.icon className="w-8 h-8 text-accent group-hover:text-charcoal transition-colors duration-300" />
-                  </div>
-
-                  {/* Content */}
-                  <h3 className="font-display text-2xl font-bold mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-primary-foreground/70 leading-relaxed">
-                    {step.description}
-                  </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+          <div className="hidden lg:block absolute top-16 left-[12.5%] right-[12.5%] h-0.5 bg-gradient-to-r from-primary via-accent to-primary opacity-20" />
+          {steps.map((step, i) => (
+            <motion.div
+              key={step.step}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.15 }}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="relative mb-5">
+                <div className="w-16 h-16 brand-gradient rounded-2xl flex items-center justify-center text-3xl shadow-lg shadow-primary/20">
+                  {step.icon}
                 </div>
-
-                {/* Arrow - Desktop */}
-                {index < steps.length - 1 && (
-                  <div className="hidden lg:flex absolute -right-6 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-accent items-center justify-center">
-                    <ArrowRight className="w-3 h-3 text-charcoal" />
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
+                <span className="absolute -top-2 -right-2 w-6 h-6 bg-foreground text-white text-xs font-bold rounded-full flex items-center justify-center">
+                  {step.step}
+                </span>
+              </div>
+              <h3 className="font-display font-semibold text-gray-900 mb-2">{step.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

@@ -58,7 +58,7 @@ export default function MenuPage() {
     queryFn: () => menuItemService.getAll({
       categoryId: activeCatObj?._id,
       search: search || undefined,
-      pageSize: 50,
+      pageSize: 0,
     }),
     enabled: !activeCat || !!activeCatObj,
   });

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AdminLayout } from "@/components/admin/AdminLayout";
+import { AdminPagination } from "@/components/admin/AdminPagination";
 import { adminContactService, type Contact } from "@/services/api";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -19,10 +20,12 @@ const statusConfig = {
 export default function AdminContacts() {
   const qc = useQueryClient();
   const [filterStatus, setFilterStatus] = useState("");
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   const { data, isLoading } = useQuery({
-    queryKey: ["admin-contacts", filterStatus],
-    queryFn: () => adminContactService.getAll({ status: filterStatus || undefined, pageSize: 50 }),
+    queryKey: ["admin-contacts", filterStatus, page],
+    queryFn: () => adminContactService.getAll({ status: filterStatus || undefined, page, pageSize: PAGE_SIZE }),
   });
 
   const updateMutation = useMutation({
@@ -48,7 +51,7 @@ export default function AdminContacts() {
         </div>
 
         <div className="mb-5">
-          <Select value={filterStatus || "all"} onValueChange={(v) => setFilterStatus(v === "all" ? "" : v)}>
+          <Select value={filterStatus || "all"} onValueChange={(v) => { setFilterStatus(v === "all" ? "" : v); setPage(1); }}>
             <SelectTrigger className="w-44">
               <SelectValue placeholder="Tất cả trạng thái" />
             </SelectTrigger>
@@ -124,6 +127,7 @@ export default function AdminContacts() {
             )}
           </div>
         )}
+        <AdminPagination page={page} total={data?.total ?? 0} pageSize={PAGE_SIZE} onChange={setPage} />
       </div>
     </AdminLayout>
   );

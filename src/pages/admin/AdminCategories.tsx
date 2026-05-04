@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AdminLayout } from "@/components/admin/AdminLayout";
+import { AdminPagination } from "@/components/admin/AdminPagination";
 import { adminCategoryService, type Category } from "@/services/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,8 +19,12 @@ export default function AdminCategories() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Category | null>(null);
   const [form, setForm] = useState<FormData>(emptyForm);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   const { data, isLoading } = useQuery({ queryKey: ["admin-categories"], queryFn: adminCategoryService.getAll });
+  const allRows = data?.rows ?? [];
+  const pagedRows = allRows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const createMutation = useMutation({
     mutationFn: adminCategoryService.create,
@@ -80,7 +85,7 @@ export default function AdminCategories() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {data?.rows.map((cat) => (
+                {pagedRows.map((cat) => (
                   <tr key={cat._id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
@@ -107,13 +112,14 @@ export default function AdminCategories() {
                     </td>
                   </tr>
                 ))}
-                {!data?.rows.length && (
+                {!allRows.length && (
                   <tr><td colSpan={5} className="py-12 text-center text-gray-400">Chưa có danh mục nào</td></tr>
                 )}
               </tbody>
             </table>
           </div>
         )}
+        <AdminPagination page={page} total={allRows.length} pageSize={PAGE_SIZE} onChange={setPage} />
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>

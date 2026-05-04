@@ -57,12 +57,12 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       <aside
         className={cn(
           "fixed top-0 left-0 h-full z-50 w-64 bg-[hsl(var(--sidebar-background))] text-[hsl(var(--sidebar-foreground))] flex flex-col transition-transform duration-300",
-          "lg:translate-x-0 lg:static lg:z-auto",
+          "lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:z-auto",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         {/* Logo */}
-        <div className="flex items-center justify-between p-5 border-b border-[hsl(var(--sidebar-border))]">
+        <div className="flex items-center justify-between h-16 px-5 border-b border-[hsl(var(--sidebar-border))]">
           <Link to="/admin" className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl brand-gradient flex items-center justify-center">
               <UtensilsCrossed className="w-5 h-5 text-white" />

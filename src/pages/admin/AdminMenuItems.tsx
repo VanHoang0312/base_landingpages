@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AdminLayout } from "@/components/admin/AdminLayout";
+import { AdminPagination } from "@/components/admin/AdminPagination";
 import { adminMenuItemService, adminCategoryService, adminMediaService, type MenuItem, type Category } from "@/services/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,11 +28,13 @@ export default function AdminMenuItems() {
   const [uploading, setUploading] = useState(false);
   const [search, setSearch] = useState("");
   const [filterCat, setFilterCat] = useState("");
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   const { data: categories } = useQuery({ queryKey: ["admin-categories"], queryFn: adminCategoryService.getAll });
   const { data, isLoading } = useQuery({
-    queryKey: ["admin-menu-items", filterCat, search],
-    queryFn: () => adminMenuItemService.getAll({ categoryId: filterCat || undefined, search: search || undefined, pageSize: 50 }),
+    queryKey: ["admin-menu-items", filterCat, search, page],
+    queryFn: () => adminMenuItemService.getAll({ categoryId: filterCat || undefined, search: search || undefined, page, pageSize: PAGE_SIZE }),
   });
 
   const createMutation = useMutation({
@@ -104,8 +107,8 @@ export default function AdminMenuItems() {
 
         {/* Filters */}
         <div className="flex gap-3 mb-5">
-          <Input placeholder="Tìm món ăn..." value={search} onChange={(e) => setSearch(e.target.value)} className="max-w-xs" />
-          <Select value={filterCat || "all"} onValueChange={(v) => setFilterCat(v === "all" ? "" : v)}>
+          <Input placeholder="Tìm món ăn..." value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} className="max-w-xs" />
+          <Select value={filterCat || "all"} onValueChange={(v) => { setFilterCat(v === "all" ? "" : v); setPage(1); }}>
             <SelectTrigger className="w-44">
               <SelectValue placeholder="Tất cả danh mục" />
             </SelectTrigger>
@@ -182,6 +185,7 @@ export default function AdminMenuItems() {
             </table>
           </div>
         )}
+        <AdminPagination page={page} total={data?.total ?? 0} pageSize={PAGE_SIZE} onChange={setPage} />
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>

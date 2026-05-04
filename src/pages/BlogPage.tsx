@@ -36,7 +36,7 @@ function PostCard({ post, index }: { post: Post; index: number }) {
 }
 
 export default function BlogPage() {
-  const { data, isLoading } = useQuery({ queryKey: ["posts"], queryFn: () => postService.getAll({ pageSize: 20 }) });
+  const { data, isLoading } = useQuery({ queryKey: ["posts"], queryFn: () => postService.getAll({ pageSize: 0 }) });
 
   return (
     <div className="min-h-screen bg-background">

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AdminLayout } from "@/components/admin/AdminLayout";
+import { AdminPagination } from "@/components/admin/AdminPagination";
 import { adminPostService, adminMediaService, type Post } from "@/services/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,10 +25,12 @@ export default function AdminPosts() {
   const [form, setForm] = useState<FormData>(emptyForm);
   const [uploading, setUploading] = useState(false);
   const [filterStatus, setFilterStatus] = useState("");
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   const { data, isLoading } = useQuery({
-    queryKey: ["admin-posts", filterStatus],
-    queryFn: () => adminPostService.getAll({ status: filterStatus || undefined, pageSize: 50 }),
+    queryKey: ["admin-posts", filterStatus, page],
+    queryFn: () => adminPostService.getAll({ status: filterStatus || undefined, page, pageSize: PAGE_SIZE }),
   });
 
   const createMutation = useMutation({
@@ -89,7 +92,7 @@ export default function AdminPosts() {
         </div>
 
         <div className="mb-5">
-          <Select value={filterStatus || "all"} onValueChange={(v) => setFilterStatus(v === "all" ? "" : v)}>
+          <Select value={filterStatus || "all"} onValueChange={(v) => { setFilterStatus(v === "all" ? "" : v); setPage(1); }}>
             <SelectTrigger className="w-44">
               <SelectValue placeholder="Tất cả trạng thái" />
             </SelectTrigger>
@@ -141,6 +144,7 @@ export default function AdminPosts() {
             )}
           </div>
         )}
+        <AdminPagination page={page} total={data?.total ?? 0} pageSize={PAGE_SIZE} onChange={setPage} />
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>

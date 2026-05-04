@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AdminLayout } from "@/components/admin/AdminLayout";
+import { AdminPagination } from "@/components/admin/AdminPagination";
 import { adminMediaService, type Media } from "@/services/api";
 import { Button } from "@/components/ui/button";
 import { Upload, Trash2, Loader2, Copy, Check } from "lucide-react";
@@ -13,10 +14,12 @@ export default function AdminMedia() {
   const [uploading, setUploading] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   const { data, isLoading } = useQuery({
-    queryKey: ["admin-media"],
-    queryFn: () => adminMediaService.getAll({ pageSize: 100 }),
+    queryKey: ["admin-media", page],
+    queryFn: () => adminMediaService.getAll({ page, pageSize: PAGE_SIZE }),
   });
 
   const deleteMutation = useMutation({
@@ -131,6 +134,7 @@ export default function AdminMedia() {
             )}
           </div>
         )}
+        <AdminPagination page={page} total={data?.total ?? 0} pageSize={PAGE_SIZE} onChange={setPage} />
       </div>
     </AdminLayout>
   );

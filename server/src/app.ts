@@ -40,9 +40,6 @@ mongoose
     console.log("✅ Connected to MongoDB");
     app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);
-      console.log(`📋 API docs:`);
-      console.log(`   Public: http://localhost:${PORT}/api/health`);
-      console.log(`   Admin:  http://localhost:${PORT}/api/admin/auth/login`);
     });
   })
   .catch((err) => {

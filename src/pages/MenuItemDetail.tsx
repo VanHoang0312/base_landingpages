@@ -204,7 +204,7 @@ export default function MenuItemDetail() {
               <h1 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-4">{item.name}</h1>
 
               {item.description && (
-                <p className="text-gray-500 text-lg leading-relaxed mb-6">{item.description}</p>
+                <div className="text-gray-500 text-lg leading-relaxed mb-6 ql-content" dangerouslySetInnerHTML={{ __html: item.description }} />
               )}
 
               <div className="flex items-baseline gap-4 mb-8">
@@ -241,7 +241,7 @@ export default function MenuItemDetail() {
               {item.longDescription && (
                 <div className="mt-8 pt-8 border-t border-border">
                   <h3 className="font-display font-semibold text-gray-900 mb-3">Mô tả chi tiết</h3>
-                  <p className="text-gray-500 leading-relaxed whitespace-pre-wrap break-words">{item.longDescription}</p>
+                  <div className="text-gray-500 leading-relaxed ql-content break-words" dangerouslySetInnerHTML={{ __html: item.longDescription }} />
                 </div>
               )}
             </motion.div>

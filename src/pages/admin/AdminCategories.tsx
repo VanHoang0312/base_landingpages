@@ -144,7 +144,16 @@ export default function AdminCategories() {
             </div>
             <div className="space-y-2">
               <Label>Thứ tự hiển thị</Label>
-              <Input type="number" value={form.sortOrder} onChange={(e) => setForm({ ...form, sortOrder: Number(e.target.value) })} min={0} />
+              <Input
+                type="text"
+                inputMode="numeric"
+                value={form.sortOrder === 0 ? "" : String(form.sortOrder)}
+                onChange={(e) => {
+                  const raw = e.target.value.replace(/\D/g, "");
+                  setForm({ ...form, sortOrder: raw ? Number(raw) : 0 });
+                }}
+                placeholder="0"
+              />
             </div>
             <div className="flex items-center gap-3">
               <Switch checked={form.isActive} onCheckedChange={(v) => setForm({ ...form, isActive: v })} id="isActive" />

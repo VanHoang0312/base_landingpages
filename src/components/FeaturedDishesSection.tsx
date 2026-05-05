@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { stripHtml } from "@/utils/stripHtml";
 import { ArrowRight, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -11,13 +12,14 @@ function DishCard({ item, index }: { item: MenuItem; index: number }) {
 
   return (
     <motion.div
+      className="h-full"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <Link to={`/thuc-don/${item.slug}`} className="food-card block group">
-        <div className="relative aspect-[4/3] overflow-hidden">
+      <Link to={`/thuc-don/${item.slug}`} className="food-card flex flex-col h-full group">
+        <div className="relative aspect-[4/3] overflow-hidden flex-shrink-0">
           {item.thumbnail ? (
             <img
               src={item.thumbnail}
@@ -39,9 +41,7 @@ function DishCard({ item, index }: { item: MenuItem; index: number }) {
                 <Star className="w-3 h-3 fill-white" /> Nổi bật
               </span>
             )}
-            {item.salePrice && (
-              <span className="badge-sale">SALE</span>
-            )}
+            {item.salePrice && <span className="badge-sale">SALE</span>}
           </div>
 
           {/* Category pill */}
@@ -52,14 +52,14 @@ function DishCard({ item, index }: { item: MenuItem; index: number }) {
           )}
         </div>
 
-        <div className="p-4">
+        <div className="p-4 flex flex-col flex-1">
           <h3 className="font-display font-semibold text-gray-900 mb-1 group-hover:text-primary transition-colors line-clamp-1">
             {item.name}
           </h3>
-          {item.description && (
-            <p className="text-sm text-gray-400 line-clamp-2 mb-3">{item.description}</p>
-          )}
-          <div className="flex items-center justify-between">
+          <p className="text-sm text-gray-400 line-clamp-2 mb-3 flex-1">
+            {item.description ? stripHtml(item.description) : ""}
+          </p>
+          <div className="flex items-center justify-between mt-auto">
             <div>
               <span className="price-tag text-lg">{formatPrice(item.price)}</span>
               {item.salePrice && (

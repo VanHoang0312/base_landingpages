@@ -203,4 +203,50 @@
   .animation-delay-150 { animation-delay: 150ms; }
   .animation-delay-300 { animation-delay: 300ms; }
   .animation-delay-500 { animation-delay: 500ms; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/* ── Quill content render (public pages) ── */
+.ql-content h1 { font-size: 2em; font-weight: 700; margin: 1rem 0 0.5rem; }
+.ql-content h2 { font-size: 1.5em; font-weight: 700; margin: 1rem 0 0.5rem; }
+.ql-content h3 { font-size: 1.25em; font-weight: 600; margin: 0.75rem 0 0.5rem; }
+.ql-content h4 { font-size: 1.1em; font-weight: 600; margin: 0.75rem 0 0.25rem; }
+.ql-content p { margin: 0.5rem 0; }
+.ql-content ul, .ql-content ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+.ql-content ul { list-style: disc; }
+.ql-content ol { list-style: decimal; }
+.ql-content li { margin: 0.25rem 0; }
+.ql-content blockquote { border-left: 4px solid hsl(var(--primary)); padding-left: 1rem; margin: 1rem 0; color: hsl(var(--muted-foreground)); font-style: italic; }
+.ql-content pre { background: hsl(var(--muted)); padding: 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.875rem; margin: 0.75rem 0; }
+.ql-content a { color: hsl(var(--primary)); text-decoration: underline; }
+.ql-content img { max-width: 100%; border-radius: 8px; margin: 0.75rem 0; }
+.ql-content strong { font-weight: 700; }
+.ql-content em { font-style: italic; }
+
+/* ── Quill editor overrides ── */
+.quill-wrapper .ql-editor {
+  min-height: var(--quill-min-height, 320px);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+.quill-wrapper .ql-toolbar.ql-snow {
+  border-radius: 8px 8px 0 0;
+  border-color: hsl(var(--border));
+  background: hsl(var(--muted) / 0.4);
+}
+.quill-wrapper .ql-container.ql-snow {
+  border-radius: 0 0 8px 8px;
+  border-color: hsl(var(--border));
+}
+.quill-wrapper .ql-picker-options {
+  z-index: 9999 !important;
+}
+.quill-wrapper .ql-editor img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+.quill-wrapper .ql-editor.ql-blank::before {
+  color: hsl(var(--muted-foreground));
+  font-style: normal;
 }

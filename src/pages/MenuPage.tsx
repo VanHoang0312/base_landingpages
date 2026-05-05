@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { stripHtml } from "@/utils/stripHtml";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -14,8 +15,8 @@ function DishCard({ item }: { item: MenuItem }) {
   const formatPrice = (n: number) => n.toLocaleString("vi-VN") + "đ";
 
   return (
-    <Link to={`/thuc-don/${item.slug}`} className="food-card group block">
-      <div className="relative aspect-[4/3] overflow-hidden">
+    <Link to={`/thuc-don/${item.slug}`} className="food-card group flex flex-col h-full">
+      <div className="relative aspect-[4/3] overflow-hidden flex-shrink-0">
         {item.thumbnail ? (
           <img src={item.thumbnail} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
         ) : (
@@ -29,10 +30,12 @@ function DishCard({ item }: { item: MenuItem }) {
           <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-xs font-medium text-gray-700 px-2 py-0.5 rounded-full">{cat.icon} {cat.name}</div>
         )}
       </div>
-      <div className="p-4">
+      <div className="p-4 flex flex-col flex-1">
         <h3 className="font-display font-semibold text-gray-900 mb-1 group-hover:text-primary transition-colors line-clamp-1">{item.name}</h3>
-        {item.description && <p className="text-sm text-gray-400 line-clamp-2 mb-3">{item.description}</p>}
-        <div className="flex items-center justify-between">
+        <p className="text-sm text-gray-400 line-clamp-2 mb-3 flex-1">
+          {item.description ? stripHtml(item.description) : ""}
+        </p>
+        <div className="flex items-center justify-between mt-auto">
           <div>
             <span className="price-tag text-lg">{formatPrice(item.price)}</span>
             {item.salePrice && <span className="text-xs text-gray-400 line-through ml-2">{formatPrice(item.salePrice)}</span>}

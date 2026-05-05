@@ -6,7 +6,6 @@ import { adminPostService, adminMediaService, type Post } from "@/services/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +13,7 @@ import { Plus, Pencil, Trash2, Loader2, Upload, X } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
+import QuillEditor from "@/components/admin/QuillEditor";
 
 type FormData = { title: string; excerpt: string; content: string; thumbnail: string; status: "DRAFT" | "PUBLISHED" };
 const emptyForm: FormData = { title: "", excerpt: "", content: "", thumbnail: "", status: "DRAFT" };
@@ -148,7 +148,7 @@ export default function AdminPosts() {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-3xl max-h-[92vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editing ? "Sửa bài viết" : "Viết bài mới"}</DialogTitle>
           </DialogHeader>
@@ -163,7 +163,11 @@ export default function AdminPosts() {
             </div>
             <div className="space-y-2">
               <Label>Nội dung</Label>
-              <Textarea value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} placeholder="Nội dung bài viết..." rows={8} className="font-mono text-sm" />
+              <QuillEditor
+                value={form.content}
+                onChange={(val) => setForm({ ...form, content: val })}
+                placeholder="Nội dung bài viết..."
+              />
             </div>
             <div className="space-y-2">
               <Label>Ảnh đại diện</Label>

@@ -57,9 +57,10 @@ export default function BlogDetail() {
             <h1 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">{post.title}</h1>
             {post.excerpt && <p className="text-xl text-gray-500 mb-8 leading-relaxed border-l-4 border-primary pl-5 italic">{post.excerpt}</p>}
             {post.content && (
-              <div className="prose prose-gray max-w-none text-gray-600 leading-relaxed whitespace-pre-wrap">
-                {post.content}
-              </div>
+              <div
+                className="prose prose-gray max-w-none text-gray-600 leading-relaxed ql-content"
+                dangerouslySetInnerHTML={{ __html: post.content }}
+              />
             )}
           </motion.div>
         </div>

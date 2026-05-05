@@ -6,12 +6,13 @@ import { adminMenuItemService, adminCategoryService, adminMediaService, type Men
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import QuillEditor from "@/components/admin/QuillEditor";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Plus, Pencil, Trash2, Loader2, Upload, Star, X, Images, ImagePlus } from "lucide-react";
 import { toast } from "sonner";
+import { stripHtml } from "@/utils/stripHtml";
 
 type FormData = {
   name: string; description: string; longDescription: string;
@@ -206,7 +207,7 @@ export default function AdminMenuItems() {
                                 {item.isFeatured && <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />}
                                 {item.newArrival && <span className="badge-new">MỚI</span>}
                               </div>
-                              {item.description && <p className="text-xs text-gray-400 line-clamp-1 mt-0.5 hidden sm:block">{item.description}</p>}
+                              {item.description && <p className="text-xs text-gray-400 mt-0.5 hidden sm:block truncate max-w-xs">{stripHtml(item.description)}</p>}
                             </div>
                           </div>
                         </td>
@@ -260,11 +261,29 @@ export default function AdminMenuItems() {
               {/* Giá */}
               <div className="space-y-2">
                 <Label>Giá (VNĐ) <span className="text-red-500">*</span></Label>
-                <Input type="number" value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} min={0} placeholder="75000" />
+                <Input
+                  type="text"
+                  inputMode="numeric"
+                  value={form.price ? form.price.toLocaleString("vi-VN") : ""}
+                  onChange={(e) => {
+                    const raw = e.target.value.replace(/\D/g, "");
+                    setForm({ ...form, price: raw ? Number(raw) : 0 });
+                  }}
+                  placeholder="75.000"
+                />
               </div>
               <div className="space-y-2">
                 <Label>Giá gốc (nếu có giảm)</Label>
-                <Input type="number" value={form.salePrice} onChange={(e) => setForm({ ...form, salePrice: e.target.value ? Number(e.target.value) : "" })} min={0} placeholder="100000" />
+                <Input
+                  type="text"
+                  inputMode="numeric"
+                  value={form.salePrice !== "" ? Number(form.salePrice).toLocaleString("vi-VN") : ""}
+                  onChange={(e) => {
+                    const raw = e.target.value.replace(/\D/g, "");
+                    setForm({ ...form, salePrice: raw ? Number(raw) : "" });
+                  }}
+                  placeholder="100.000"
+                />
               </div>
               {/* Danh mục */}
               <div className="col-span-2 space-y-2">
@@ -279,11 +298,21 @@ export default function AdminMenuItems() {
               {/* Mô tả */}
               <div className="col-span-2 space-y-2">
                 <Label>Mô tả ngắn</Label>
-                <Input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Mô tả ngắn gọn về món ăn" />
+                <QuillEditor
+                  value={form.description}
+                  onChange={(val) => setForm({ ...form, description: val })}
+                  placeholder="Mô tả ngắn gọn về món ăn"
+                  minHeight={100}
+                />
               </div>
               <div className="col-span-2 space-y-2">
                 <Label>Mô tả chi tiết</Label>
-                <Textarea value={form.longDescription} onChange={(e) => setForm({ ...form, longDescription: e.target.value })} placeholder="Mô tả đầy đủ..." rows={3} />
+                <QuillEditor
+                  value={form.longDescription}
+                  onChange={(val) => setForm({ ...form, longDescription: val })}
+                  placeholder="Mô tả đầy đủ..."
+                  minHeight={200}
+                />
               </div>
 
               {/* ── Ảnh đại diện ── */}
@@ -421,7 +450,16 @@ export default function AdminMenuItems() {
               {/* Sort & Switches */}
               <div className="space-y-2">
                 <Label>Thứ tự hiển thị</Label>
-                <Input type="number" value={form.sortOrder} onChange={(e) => setForm({ ...form, sortOrder: Number(e.target.value) })} min={0} />
+                <Input
+                  type="text"
+                  inputMode="numeric"
+                  value={form.sortOrder === 0 ? "" : String(form.sortOrder)}
+                  onChange={(e) => {
+                    const raw = e.target.value.replace(/\D/g, "");
+                    setForm({ ...form, sortOrder: raw ? Number(raw) : 0 });
+                  }}
+                  placeholder="0"
+                />
               </div>
               <div className="space-y-3 pt-1">
                 <div className="flex items-center gap-2">

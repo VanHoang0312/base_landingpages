@@ -31,7 +31,6 @@ const postSchema = new Schema<IPost>(
   { timestamps: true }
 );
 
-postSchema.index({ slug: 1 });
 postSchema.index({ status: 1, publishedAt: -1 });
 
 export const Post = mongoose.model<IPost>("Post", postSchema);

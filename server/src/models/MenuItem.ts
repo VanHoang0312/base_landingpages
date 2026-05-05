@@ -43,7 +43,6 @@ const menuItemSchema = new Schema<IMenuItem>(
   { timestamps: true }
 );
 
-menuItemSchema.index({ slug: 1 });
 menuItemSchema.index({ categoryId: 1 });
 menuItemSchema.index({ isFeatured: 1 });
 

@@ -14,6 +14,5 @@ const settingSchema = new Schema<ISetting>({
   group: { type: String, default: "general" },
 });
 
-settingSchema.index({ key: 1 });
 
 export const Setting = mongoose.model<ISetting>("Setting", settingSchema);
